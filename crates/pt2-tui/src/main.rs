@@ -18,9 +18,7 @@ fn main() -> io::Result<()> {
 fn run(mut terminal: DefaultTerminal) -> io::Result<()> {
     loop {
         terminal.draw(|frame| {
-            let greeting = Paragraph::new("Hello Ratatui! (press 'q' to quit)")
-                .white()
-                .on_blue();
+            let greeting = Paragraph::new("Hello Ratatui! (press 'q' to quit)");
 
             frame.render_widget(greeting, frame.area());
         })?;
