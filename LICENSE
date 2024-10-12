@@ -1,0 +1,56 @@
+Student Open License (SOL)
+Version 1.0, October 2024
+
+Copyright (c) 2024, SDR Team
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Definitions.
+
+   "License" shall mean the terms and conditions for use, reproduction, and
+   distribution as defined by Sections 1 through 9 of this document.
+
+   "You" (or "Your") shall mean an individual or Legal Entity exercising
+   permissions granted by this License.
+
+   "Source" form shall mean the preferred form for making modifications,
+   including but not limited to software source code, documentation source,
+   and configuration files.
+
+   "Object" form shall mean any form resulting from mechanical transformation
+   or translation of a Source form, including but not limited to compiled
+   object code, generated documentation, and conversions to other media types.
+
+   "Work" shall mean the work of authorship, whether in Source or Object form,
+   made available under the License, as indicated by a copyright notice that
+   is included in or attached to the work (an example is provided in the
+   Appendix below).
+
+   "SDR Team" shall mean authors of the work that are Asqar Arslanov
+   (a.arslanov@innopolis.university), Arsen Galiev (a.galiev@innopolis.university),
+   Kirill Efimovich (k.efimovich@innopolis.university), and Ilya-Linh Nguen
+   (i.nguen@innopolis.university).
+
+2. Restrictions on Use.
+
+   The current license states that the code and documents provided may not be
+   used by members of educational institutions for the purpose of performing
+   educational material aimed at measuring the knowledge of members of the
+   educational institution. Failure to comply with this requirement reserves
+   the right to penalize the body responsible for measuring the knowledge of
+   members of the institution.
+
+3. Additional License.
+
+   If the code is used by the user for purposes other than those listed above,
+   the additional compatible license included with the software, in this case
+   the BSD 3-Clause license, comes into effect.
+
+4. Disclaimer of Warranty.
+
+   The authors of the code, or the SDR Team, are not responsible for the use
+   of the work by the user and provide the software “as is” without warranty
+   of any kind, either express or implied, including, but not limited to,
+   warranties of merchantability, fitness for a particular purpose, and
+   non-infringement.

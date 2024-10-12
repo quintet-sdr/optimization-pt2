@@ -1,0 +1,171 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{csquotes}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{sverb}
+
+\geometry{left=3cm, right=3cm, top=2cm, bottom=2cm}
+
+\renewcommand\labelitemi{\(\vcenter{\hbox{\tiny{\({\bullet}\)}}}\)}
+
+\newcommand{\Gap}{0.25in}
+
+\chead{Report of Programming Task 1 of the course \enquote{Introduction to Optimization} / Fall 2024}
+
+\title{\textbf{Report 1}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\thispagestyle{fancy}
+
+\textbf{Team information (B23-ISE-02):}
+\begin{itemize}
+    \item Team member 1 (leader): Kirill Efimovich (\href{mailto:k.efimovich@innopolis.university}{k.efimovich@innopolis.university}), grade 5/5
+    \item Team member 2: Arsen Galiev (\href{mailto:a.galiev@innopolis.university}{a.galiev@innopolis.university}), grade: 5/5
+    \item Team member 3: Asqar Arslanov (\href{mailto:a.arslanov@innopolis.university}{a.arslanov@innopolis.university}), grade: 5/5
+    \item Team member 4: Ilya-Linh Nguen (\href{mailto:i.nguen@innopolis.university}{i.nguen@innopolis.university}), grade: 5/5
+\end{itemize}
+
+\vspace{\Gap}
+
+\textbf{Link to the product:}
+\begin{itemize}
+    \item \url{https://github.com/quintet-sdr/optimization-a1}
+\end{itemize}
+
+\vspace{\Gap}
+
+\textbf{Programming language:}
+\begin{itemize}
+    \item TypeScript (Bun)
+    \item To launch the code: \fbox{\texttt{\$ bun test}}
+\end{itemize}
+
+\vspace{\Gap}
+
+\textbf{Linear programming problem:}
+\begin{itemize}
+    \item Maximization
+    \item Approximation accuracy \(\epsilon = 0.001\)
+\end{itemize}
+
+\vspace{\Gap}
+
+\textbf{Tests:}
+\begin{enumerate}[label={(\arabic*)}]
+    \item \textbf{Input:}
+          \begin{itemize}
+              \item Objective function: \(F(x_1, x_2) = 10 x_1 + 20 x_2\)
+              \item Constraints: \(\begin{cases}
+                        -x_1 + 2 x_2 \le 15  \\
+                        x_1 + x_2 \le 12     \\
+                        5 x_1 + 3 x_2 \le 45 \\
+                        x_1, x_2 \ge 0       \\
+                    \end{cases}\)
+          \end{itemize}
+
+          \textbf{Output:}
+          \begin{itemize}
+              \item Solver state: solved
+              \item Decision variables: \({\{ 3, 9 \}}\)
+              \item Maximum value: \(210\)
+          \end{itemize}
+
+          \newpage
+
+    \item \textbf{Input:}
+          \begin{itemize}
+              \item Objective function: \(F(x_1, x_2, x_3) = 9 x_1 + 10 x_2 + 16 x_3\)
+              \item Constraints: \(\begin{cases}
+                        18 x_1 + 15 x_2 + 12 x_3 \le 360 \\
+                        6 x_1 + 4 x_2 + 8 x_3 \le 192    \\
+                        5 x_1 + 3 x_2 + 3 x_3 \le 180    \\
+                        x_1, x_2, x_3 \ge 0              \\
+                    \end{cases}\)
+          \end{itemize}
+
+          \textbf{Output:}
+          \begin{itemize}
+              \item Solver state: solved
+              \item Decision variables: \({\{ 0, 8, 20 \}}\)
+              \item Maximum value: \(400\)
+          \end{itemize}
+
+          \vspace{\Gap}
+
+    \item \textbf{Input:}
+          \begin{itemize}
+              \item Objective function: \(F(x_1, x_2, x_3) = 2 x_1 - 2 x_2 + 6 x_3\)
+              \item Constraints: \(\begin{cases}
+                        2 x_1 + x_2 - 2 x_3 \le 24 \\
+                        x_1 + 2 x_2 + 4 x_3 \le 23 \\
+                        x_1 - x_2 + 2 x_3 \le 10   \\
+                        x_1, x_2, x_3 \ge 0        \\
+                    \end{cases}\)
+          \end{itemize}
+
+          \textbf{Output:}
+          \begin{itemize}
+              \item Solver state: solved
+              \item Decision variables: \({\{ 0, 0.75, 5.375 \}}\)
+              \item Maximum value: \(30.75\)
+          \end{itemize}
+
+          \vspace{\Gap}
+
+    \item \textbf{Input:}
+          \begin{itemize}
+              \item Objective function: \(F(x_1, x_2) = 2 x_1 + x_2\)
+              \item Constraints: \(\begin{cases}
+                        x_1 - x_2 \le 10 \\
+                        -2 x_1 \le 40    \\
+                        x_1, x_2 \ge 0   \\
+                    \end{cases}\)
+          \end{itemize}
+
+          \textbf{Output:}
+          \begin{itemize}
+              \item Solver state: unbounded
+          \end{itemize}
+
+          \vspace{\Gap}
+
+    \item \textbf{Input:}
+          \begin{itemize}
+              \item Objective function: \(F(x_1, x_2) = 3 x_1 + 2 x_2\)
+              \item Constraints: \(\begin{cases}
+                        x_1 - x_2 \le 2     \\
+                        -2 x_1 + x_2 \le -1 \\
+                        x_1, x_2 \ge 0      \\
+                    \end{cases}\)
+          \end{itemize}
+
+          \textbf{Output:}
+          \begin{itemize}
+              \item Solver state: unbounded
+          \end{itemize}
+\end{enumerate}
+
+\newpage
+
+\textbf{Code:}
+
+\fbox{\texttt{src/util.ts}}
+\verbinput{../src/util.ts}
+
+\newpage
+
+\fbox{\texttt{src/lib.ts}}
+\verbinput{../src/lib.ts}
+
+\newpage
+
+\fbox{\texttt{src/lib.test.ts}}
+\verbinput{../src/lib.test.ts}
+\end{document}

@@ -1,0 +1,24 @@
+[workspace]
+resolver = "2"
+members = ["pt2-core", "pt2-tui"]
+default-members = ["pt2-tui"]
+
+[workspace.package]
+version = "0.0.0"
+authors = [
+  "Arsen Galiev <a.galiev@innopolis.university>",
+  "Asqar Arslanov <a.arslanov@innopolis.university>",
+  "Ilya-Linh Nguen <i.nguen@innopolis.university>",
+  "Kirill Efimovich <k.efimovich@innopolis.university>",
+]
+description = "B23-ISE-02"
+readme = true
+repository = "https://github.com/quintet-sdr/optimization-pt2"
+license-file = "LICENSE"
+publish = false
+
+[workspace.lints.clippy]
+all = "warn"
+pedantic = "warn"
+nursery = "warn"
+missing-errors-doc = { level = "allow", priority = 1 }
