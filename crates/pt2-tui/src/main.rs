@@ -1,7 +1,7 @@
 use std::io;
 
 use ratatui::{
-    crossterm::event::{self, KeyCode, KeyEventKind},
+    crossterm::event::{self, Event, KeyCode, KeyEventKind},
     style::Stylize,
     widgets::Paragraph,
     DefaultTerminal,
@@ -25,7 +25,7 @@ fn run(mut terminal: DefaultTerminal) -> io::Result<()> {
             frame.render_widget(greeting, frame.area());
         })?;
 
-        if let event::Event::Key(key) = event::read()? {
+        if let Event::Key(key) = event::read()? {
             if key.kind == KeyEventKind::Press && key.code == KeyCode::Char('q') {
                 return Ok(());
             }
