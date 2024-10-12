@@ -2,7 +2,6 @@ use std::io;
 
 use ratatui::{
     crossterm::event::{self, Event, KeyCode, KeyEventKind},
-    style::Stylize,
     widgets::Paragraph,
     DefaultTerminal,
 };
