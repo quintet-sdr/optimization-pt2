@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
-members = ["pt2-core", "pt2-tui"]
-default-members = ["pt2-tui"]
+members = ["crates/*"]
+default-members = ["crates/pt2-tui"]
 
 [workspace.package]
 version = "0.0.0"
