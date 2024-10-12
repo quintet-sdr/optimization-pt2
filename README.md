@@ -4,7 +4,7 @@
 
 ![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
 
-## Run Locally
+## Run locally
 
 > You are assumed to have the Rust toolchain installed. If this is not the case,
 > you may follow the
