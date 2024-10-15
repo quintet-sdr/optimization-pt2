@@ -255,6 +255,7 @@ dependencies = [
 name = "pt2-tui"
 version = "0.0.0"
 dependencies = [
+ "crossterm",
  "ratatui",
 ]
 
