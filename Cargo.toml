@@ -22,3 +22,4 @@ all = "warn"
 pedantic = "warn"
 nursery = "warn"
 missing-errors-doc = { level = "allow", priority = 1 }
+missing-panics-doc = { level = "allow", priority = 1 }
