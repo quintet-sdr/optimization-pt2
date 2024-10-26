@@ -17,13 +17,13 @@ pub struct Solution {
 }
 
 pub fn run() {
-    // c: Vec<f64>, a: Vec<Vec<f64>>, b: Vec<f64>, eps: i32
-    // let a = DMatrix::from_row_slice(1, 3, &[1, 1, 1]);
-    // let b = DMatrix::<f64>::identity(a.nrows(), a.ncols());
-
-    // let c = vec![1, 2, 0];
-    // let a = vec![1, 1, 1];
-    // let b = 8;
+    interior_point_algorithm(
+        vec![2., 2., 4., 3.],
+        vec![vec![2., -2., 8., 0.], vec![-6., -1., 0., -1.]],
+        vec![-2., 3., 0., 0.],
+        0.5,
+        0.0001,
+    )
 }
 
 fn interior_point_algorithm(
@@ -49,16 +49,23 @@ fn interior_point_algorithm(
         }
 
         let d = Matrix::from_diagonal(&x);
+
         let aa = &a * &d;
         let cc = &d * &c;
+
         let i = DMatrix::<f64>::identity(c.nrows(), c.nrows());
+
         let f = &aa * aa.transpose();
         let fi = f.try_inverse().unwrap();
         let h = aa.tr_mul(&fi);
-        let p = i - h * aa;
+
+        let p = i - (h * aa);
+
         let cp = p * cc;
+
         let nu = cp.min().abs();
         let y = DVector::from_element(c.nrows(), 1.0) + (alpha / nu) * cp;
+
         let yy = d * y;
 
         iteration += 1;
