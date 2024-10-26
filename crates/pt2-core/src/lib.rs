@@ -87,6 +87,6 @@ fn interior_point_algorithm(
 fn is_inapplicable(a: &DMatrix<f64>, c: &DVector<f64>) -> bool {
     c.iter()
         .enumerate()
-        .filter(|(_, it)| it >= &&0.0)
-        .any(|(i, _)| a.column(i).iter().all(|it| it <= &&0.0))
+        .filter(|(_, it)| -*it <= 0.0)
+        .any(|(i, _)| a.column(i).iter().all(|it| it <= &0.0))
 }
