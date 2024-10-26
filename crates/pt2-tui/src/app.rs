@@ -40,7 +40,7 @@ impl App {
         match key_event.code {
             KeyCode::Esc | KeyCode::Char('q') => self.exit(),
             KeyCode::Char('c') if matches!(key_event.modifiers, KeyModifiers::CONTROL) => {
-                self.exit()
+                self.exit();
             }
             _ => (),
         }

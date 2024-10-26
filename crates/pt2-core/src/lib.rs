@@ -7,6 +7,7 @@ use na::{DMatrix, DVector};
 
 mod error;
 
+#[derive(Debug)]
 pub struct Solution {
     // /// A vector of the decision variables.
     // x: Vec<f64>,
@@ -17,13 +18,19 @@ pub struct Solution {
 }
 
 pub fn run() {
-    let a = solve(
+    let solution = solve(
         vec![2., 2., 4., 3.],
         vec![vec![2., -2., 8., 0.], vec![-6., -1., 0., -1.]],
         vec![-2., 3., 0., 0.],
         0.5,
         3,
-    );
+    )
+    .unwrap();
+
+    for (i, iteration) in solution.enumerate().map(|(i, it)| (i + 1, it)) {
+        let it = iteration.unwrap();
+        println!("{i}: {it:?}");
+    }
 }
 
 pub struct Ipa {
@@ -38,6 +45,7 @@ pub struct Ipa {
 impl Iterator for Ipa {
     type Item = Result<Solution, error::NotApplicable>;
 
+    #[allow(clippy::many_single_char_names)]
     fn next(&mut self) -> Option<Self::Item> {
         if self.done {
             return None;
