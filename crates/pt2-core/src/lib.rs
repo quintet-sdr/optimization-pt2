@@ -5,8 +5,6 @@ use std::{
 
 use na::{DMatrix, DVector};
 
-use self::error::{NoSolutionError, NotApplicableError};
-
 mod error;
 
 pub struct Solution {
@@ -38,7 +36,7 @@ struct Ipa {
 }
 
 impl Iterator for Ipa {
-    type Item = Result<Solution, NotApplicableError>;
+    type Item = Result<Solution, error::NotApplicable>;
 
     fn next(&mut self) -> Option<Self::Item> {
         if self.done {
@@ -54,7 +52,7 @@ impl Iterator for Ipa {
 
         let f = &aa * aa.transpose();
         let Some(fi) = f.try_inverse() else {
-            return Some(Err(NotApplicableError));
+            return Some(Err(error::NotApplicable));
         };
         let h = aa.tr_mul(&fi);
 
@@ -86,7 +84,7 @@ pub fn solve(
     c: Vec<f64>,
     alpha: f64,
     eps: u8,
-) -> Result<Ipa, NoSolutionError> {
+) -> Result<Ipa, error::NoSolution> {
     // if !todo!() {
     //     return Err(NoSolutionError);
     // }
