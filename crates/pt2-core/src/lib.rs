@@ -35,19 +35,26 @@ fn interior_point_algorithm(
 ) {
     let mut x = DVector::from_vec(initial_x);
     let a = DMatrix::from_vec(
-        initial_a.len(),
         initial_a.first().unwrap().len(),
+        initial_a.len(),
         initial_a.into_iter().flatten().collect(),
-    );
+    )
+    .transpose();
     let c = DVector::from_vec(initial_c);
+
+    if cfg!(debug_assertions) {
+        println!("x:{x}");
+        println!("a:{a}");
+        println!("c:{c}");
+    }
+
+    if is_inapplicable(&a, &c) {
+        println!("Not applicable");
+        return;
+    }
 
     let mut iteration = 1;
     loop {
-        if is_inapplicable(&a, &c) {
-            println!("Not applicable");
-            break;
-        }
-
         let d = Matrix::from_diagonal(&x);
 
         let aa = &a * &d;
