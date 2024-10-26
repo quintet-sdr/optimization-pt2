@@ -12,13 +12,13 @@ pub struct Solution {
 }
 
 pub fn run() {
-    const EPS: usize = 3;
+    const EPS: usize = 2;
     let solution = solve(
         vec![2., 2., 4., 3.],
         vec![vec![2., -2., 8., 0.], vec![-6., -1., 0., -1.]],
         vec![-2., 3., 0., 0.],
         0.5,
-        EPS,
+        EPS + 1,
     )
     .unwrap();
 
