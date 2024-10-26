@@ -13,12 +13,13 @@ pub struct Solution {
 
 pub fn run() {
     const EPS: usize = 2;
+
     let solution = solve(
         vec![2., 2., 4., 3.],
         vec![vec![2., -2., 8., 0.], vec![-6., -1., 0., -1.]],
         vec![-2., 3., 0., 0.],
         0.5,
-        EPS + 1,
+        0.01_f64.powi(EPS as i32 + 1),
     )
     .unwrap();
 
@@ -35,7 +36,7 @@ pub struct Ipa {
     a: DMatrix<f64>,
     c: DVector<f64>,
     alpha: f64,
-    eps: usize,
+    eps: f64,
     done: bool,
 }
 
@@ -72,7 +73,7 @@ impl Iterator for Ipa {
         let norm = (&yy - &self.x).norm();
         self.x = yy;
 
-        if norm < 0.1_f64.powi(self.eps as i32) {
+        if norm < self.eps {
             self.done = true;
         }
 
@@ -88,7 +89,7 @@ pub fn solve(
     a: Vec<Vec<f64>>,
     c: Vec<f64>,
     alpha: f64,
-    eps: usize,
+    eps: f64,
 ) -> Result<Ipa, error::NoSolution> {
     // if !todo!() {
     //     return Err(NoSolutionError);
