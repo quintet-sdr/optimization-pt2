@@ -1,3 +1,8 @@
+use std::{
+    cell::RefCell,
+    rc::{Rc, Weak},
+};
+
 use na::{DMatrix, DVector};
 
 use self::error::{NoSolutionError, NotApplicableError};
@@ -5,10 +10,12 @@ use self::error::{NoSolutionError, NotApplicableError};
 mod error;
 
 pub struct Solution {
-    /// A vector of the decision variables.
-    x: Vec<f64>,
-    /// The maximum value of the objective function.
-    z: f64,
+    // /// A vector of the decision variables.
+    // x: Vec<f64>,
+    // /// The maximum value of the objective function.
+    // z: f64,
+    x: Weak<RefCell<DVector<f64>>>,
+    objective_fn: DMatrix<f64>,
 }
 
 pub fn run() {
@@ -22,7 +29,7 @@ pub fn run() {
 }
 
 struct Ipa {
-    x: DVector<f64>,
+    x: Rc<RefCell<DVector<f64>>>,
     a: DMatrix<f64>,
     c: DVector<f64>,
     alpha: f64,
@@ -38,7 +45,7 @@ impl Iterator for Ipa {
             return None;
         }
 
-        let d = DMatrix::from_diagonal(&self.x);
+        let d = DMatrix::from_diagonal(&self.x.borrow());
 
         let aa = &self.a * &d;
         let cc = &d * &self.c;
@@ -60,25 +67,17 @@ impl Iterator for Ipa {
         let y = DVector::from_element(self.c.nrows(), 1.0) + (self.alpha / nu) * cp;
 
         let yy = d * y;
+        let norm = (&yy - &*self.x.borrow()).norm();
+        *self.x.borrow_mut() = yy;
 
-        if (&yy - &self.x).norm() < 0.1f64.powi(self.eps.into()) {
-            self.x = yy;
-
-            if cfg!(debug_assertions) {
-                println!("x:{}", self.x);
-                println!("with alpha = {}.", self.alpha);
-                println!(
-                    "Value of objective function is: {}",
-                    &self.c * self.x.transpose()
-                );
-            }
-
+        if norm < 0.1_f64.powi(self.eps.into()) {
             self.done = true;
-            return Some(Ok(todo!()));
         }
 
-        self.x = yy;
-        Some(Ok(todo!()))
+        Some(Ok(Solution {
+            x: Rc::downgrade(&self.x),
+            objective_fn: &self.c * self.x.borrow().transpose(),
+        }))
     }
 }
 
@@ -89,12 +88,12 @@ pub fn solve(
     alpha: f64,
     eps: u8,
 ) -> Result<Ipa, NoSolutionError> {
-    if !todo!() {
-        return Err(NoSolutionError);
-    }
+    // if !todo!() {
+    //     return Err(NoSolutionError);
+    // }
 
     Ok(Ipa {
-        x: DVector::from_vec(x),
+        x: Rc::new(RefCell::new(DVector::from_vec(x))),
         a: DMatrix::from_row_iterator(a.len(), a.first().unwrap().len(), a.into_iter().flatten()),
         c: DVector::from_vec(c),
         alpha,
@@ -103,4 +102,8 @@ pub fn solve(
     })
 }
 
-pub fn main(c: i32) {}
+// pub fn main(c: Vec<f64>, a: Vec<Vec<f64>>, initial_point: Vec<f64>, b: Vec<f64>, eps: u8) {
+//     assert_eq!(a.len(), b.len());
+//     a.iter().for_each(|row| assert_eq!(row.len(), c.len()));
+//     todo!();
+// }
