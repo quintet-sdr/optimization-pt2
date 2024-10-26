@@ -1,64 +1,49 @@
 use na::{DMatrix, DVector};
-use thiserror::Error;
 
-#[derive(Error, Debug)]
-pub enum Error {
-    #[error("method is not applicable")]
-    NotApplicable,
-    #[error("problem has no solution")]
-    NoSolution,
-}
+use self::error::{NoSolutionError, NotApplicableError};
+
+mod error;
 
 pub struct Solution {
     /// A vector of the decision variables.
-    _x: Vec<f64>,
+    x: Vec<f64>,
     /// The maximum value of the objective function.
-    _z: f64,
+    z: f64,
 }
 
 pub fn run() {
-    interior_point_algorithm(
+    let a = solve(
         vec![2., 2., 4., 3.],
-        vec![
-            vec![2., -2., 8., 0.].into_boxed_slice(),
-            vec![-6., -1., 0., -1.].into_boxed_slice(),
-        ]
-        .into_boxed_slice(),
+        vec![vec![2., -2., 8., 0.], vec![-6., -1., 0., -1.]],
         vec![-2., 3., 0., 0.],
         0.5,
-        0.0001,
-    )
+        3,
+    );
 }
 
-fn interior_point_algorithm(
-    initial_x: Vec<f64>,
-    initial_a: Box<[Box<[f64]>]>,
-    initial_c: Vec<f64>,
+struct Ipa {
+    x: DVector<f64>,
+    a: DMatrix<f64>,
+    c: DVector<f64>,
     alpha: f64,
-    epsilon: f64,
-) {
-    let mut x = DVector::from_vec(initial_x);
-    let a = DMatrix::from_row_iterator(
-        initial_a.len(),
-        initial_a.first().unwrap().len(),
-        IntoIterator::into_iter(initial_a).flatten(),
-    );
-    let c = DVector::from_vec(initial_c);
+    eps: u8,
+    done: bool,
+}
 
-    if cfg!(debug_assertions) {
-        println!("x:{x}");
-        println!("a:{a}");
-        println!("c:{c}");
-    }
+impl Iterator for Ipa {
+    type Item = Result<Solution, NotApplicableError>;
 
-    let mut iteration = 1;
-    loop {
-        let d = DMatrix::from_diagonal(&x);
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.done {
+            return None;
+        }
 
-        let aa = &a * &d;
-        let cc = &d * &c;
+        let d = DMatrix::from_diagonal(&self.x);
 
-        let i = DMatrix::<f64>::identity(c.nrows(), c.nrows());
+        let aa = &self.a * &d;
+        let cc = &d * &self.c;
+
+        let i = DMatrix::<f64>::identity(self.c.nrows(), self.c.nrows());
 
         let f = &aa * aa.transpose();
         let fi = f.try_inverse().unwrap();
@@ -69,22 +54,52 @@ fn interior_point_algorithm(
         let cp = p * cc;
 
         let nu = cp.min().abs();
-        let y = DVector::from_element(c.nrows(), 1.0) + (alpha / nu) * cp;
+        let y = DVector::from_element(self.c.nrows(), 1.0) + (self.alpha / nu) * cp;
 
         let yy = d * y;
 
-        iteration += 1;
+        if (&yy - &self.x).norm() < 0.1f64.powi(self.eps.into()) {
+            self.x = yy;
 
-        if (&yy - x).norm() < epsilon {
-            x = yy;
+            if cfg!(debug_assertions) {
+                println!("x:{}", self.x);
+                println!("with alpha = {}.", self.alpha);
+                println!(
+                    "Value of objective function is: {}",
+                    &self.c * self.x.transpose()
+                );
+            }
 
-            println!("In the last iteration {iteration}, we have x =");
-            println!("{x}");
-            println!("with alpha = {alpha}.");
-            println!("Value of objective function is: {}", c * x.transpose());
-            break;
+            self.done = true;
+            return Some(Ok(todo!()));
         }
 
-        x = yy;
+        self.x = yy;
+        Some(Ok(todo!()))
+    }
+}
+
+pub fn solve(
+    x: Vec<f64>,
+    a: Vec<Vec<f64>>,
+    c: Vec<f64>,
+    alpha: f64,
+    eps: u8,
+) -> Result<Ipa, NoSolutionError> {
+    if todo!() {
+        Ok(Ipa {
+            x: DVector::from_vec(x),
+            a: DMatrix::from_row_iterator(
+                a.len(),
+                a.first().unwrap().len(),
+                a.into_iter().flatten(),
+            ),
+            c: DVector::from_vec(c),
+            alpha,
+            eps,
+            done: false,
+        })
+    } else {
+        Err(NoSolutionError)
     }
 }
