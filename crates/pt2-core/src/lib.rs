@@ -133,9 +133,7 @@ pub fn solve_new(
     let a = {
         let mut a = DMatrix::from_row_iterator(n, m, a.into_iter().flatten())
             .resize_horizontally(n + m, 0.0);
-
         a.view_mut((0, n), (n, n)).fill_with_identity();
-
         a
     };
     let c = DVector::from_vec(c).resize_vertically(n + m, 0.0);
