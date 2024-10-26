@@ -26,7 +26,7 @@ pub fn run() {
     );
 }
 
-struct Ipa {
+pub struct Ipa {
     x: Rc<RefCell<DVector<f64>>>,
     a: DMatrix<f64>,
     c: DVector<f64>,
