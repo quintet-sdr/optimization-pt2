@@ -19,7 +19,11 @@ pub struct Solution {
 pub fn run() {
     interior_point_algorithm(
         vec![2., 2., 4., 3.],
-        vec![vec![2., -2., 8., 0.], vec![-6., -1., 0., -1.]],
+        vec![
+            vec![2., -2., 8., 0.].into_boxed_slice(),
+            vec![-6., -1., 0., -1.].into_boxed_slice(),
+        ]
+        .into_boxed_slice(),
         vec![-2., 3., 0., 0.],
         0.5,
         0.0001,
@@ -28,7 +32,7 @@ pub fn run() {
 
 fn interior_point_algorithm(
     initial_x: Vec<f64>,
-    initial_a: Vec<Vec<f64>>,
+    initial_a: Box<[Box<[f64]>]>,
     initial_c: Vec<f64>,
     alpha: f64,
     epsilon: f64,
@@ -37,7 +41,7 @@ fn interior_point_algorithm(
     let a = DMatrix::from_vec(
         initial_a.first().unwrap().len(),
         initial_a.len(),
-        initial_a.into_iter().flatten().collect(),
+        IntoIterator::into_iter(initial_a).flatten().collect(),
     )
     .transpose();
     let c = DVector::from_vec(initial_c);
@@ -46,11 +50,6 @@ fn interior_point_algorithm(
         println!("x:{x}");
         println!("a:{a}");
         println!("c:{c}");
-    }
-
-    if is_inapplicable(&a, &c) {
-        println!("Not applicable");
-        return;
     }
 
     let mut iteration = 1;
@@ -89,11 +88,4 @@ fn interior_point_algorithm(
 
         x = yy;
     }
-}
-
-fn is_inapplicable(a: &DMatrix<f64>, c: &DVector<f64>) -> bool {
-    c.iter()
-        .enumerate()
-        .filter(|(_, it)| -*it <= 0.0)
-        .any(|(i, _)| a.column(i).iter().all(|it| it <= &0.0))
 }
