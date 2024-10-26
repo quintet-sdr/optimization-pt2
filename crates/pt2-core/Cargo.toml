@@ -10,6 +10,7 @@ license-file.workspace = true
 publish.workspace = true
 
 [dependencies]
+na = { version = "0.33.1", package = "nalgebra" }
 thiserror = "1.0.64"
 
 [lints]

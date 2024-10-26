@@ -5,7 +5,7 @@ use self::app::App;
 mod app;
 
 fn main() {
-    pt2_core::interior_point();
+    pt2_core::run();
 }
 
 fn start_tui() -> io::Result<()> {

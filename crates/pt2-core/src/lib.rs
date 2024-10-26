@@ -15,11 +15,10 @@ pub struct Solution {
     _z: f64,
 }
 
-pub fn interior_point(
-    c: Vec<f64>,
-    a: Vec<Vec<f64>>,
-    b: Vec<f64>,
-    eps: i32,
-) -> Result<Solution, Error> {
-    todo!()
+pub fn run() {
+    // c: Vec<f64>, a: Vec<Vec<f64>>, b: Vec<f64>, eps: i32
+
+    let c = vec![1, 2, 0];
+    let a = vec![1, 1, 1];
+    let b = 8;
 }
