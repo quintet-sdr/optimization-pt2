@@ -46,7 +46,10 @@ impl Iterator for Ipa {
         let i = DMatrix::<f64>::identity(self.c.nrows(), self.c.nrows());
 
         let f = &aa * aa.transpose();
-        let fi = f.try_inverse().unwrap();
+        let fi = match f.try_inverse() {
+            Some(inv) => inv,
+            None => return Some(Err(NotApplicableError)),
+        };
         let h = aa.tr_mul(&fi);
 
         let p = i - (h * aa);
@@ -86,20 +89,18 @@ pub fn solve(
     alpha: f64,
     eps: u8,
 ) -> Result<Ipa, NoSolutionError> {
-    if todo!() {
-        Ok(Ipa {
-            x: DVector::from_vec(x),
-            a: DMatrix::from_row_iterator(
-                a.len(),
-                a.first().unwrap().len(),
-                a.into_iter().flatten(),
-            ),
-            c: DVector::from_vec(c),
-            alpha,
-            eps,
-            done: false,
-        })
-    } else {
-        Err(NoSolutionError)
+    if !todo!() {
+        return Err(NoSolutionError);
     }
+
+    Ok(Ipa {
+        x: DVector::from_vec(x),
+        a: DMatrix::from_row_iterator(a.len(), a.first().unwrap().len(), a.into_iter().flatten()),
+        c: DVector::from_vec(c),
+        alpha,
+        eps,
+        done: false,
+    })
 }
+
+pub fn main(c: i32) {}
