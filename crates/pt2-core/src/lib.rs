@@ -1,4 +1,4 @@
-use na::{DMatrix, DVector};
+use na::{ComplexField, DMatrix, DVector};
 
 mod error;
 
@@ -9,26 +9,6 @@ pub struct Solution {
     // z: f64,
     x: DVector<f64>,
     objective_fn: DMatrix<f64>,
-}
-
-pub fn run() {
-    const EPS: usize = 2;
-
-    let solution = solve(
-        vec![2., 2., 4., 3.],
-        vec![vec![2., -2., 8., 0.], vec![-6., -1., 0., -1.]],
-        vec![-2., 3., 0., 0.],
-        0.5,
-        0.01_f64.powi(EPS as i32 + 1),
-    )
-    .unwrap();
-
-    for (i, iteration) in solution.enumerate().map(|(i, it)| (i + 1, it)) {
-        let it = iteration.unwrap();
-        println!("Iteration {i}");
-        println!("x:{:.EPS$}", it.x);
-        println!("fn:{:.EPS$}", it.objective_fn);
-    }
 }
 
 pub struct Ipa {
@@ -84,7 +64,7 @@ impl Iterator for Ipa {
     }
 }
 
-pub fn solve(
+pub fn solve_old(
     x: Vec<f64>,
     a: Vec<Vec<f64>>,
     c: Vec<f64>,
@@ -105,8 +85,76 @@ pub fn solve(
     })
 }
 
-// pub fn main(c: Vec<f64>, a: Vec<Vec<f64>>, initial_point: Vec<f64>, b: Vec<f64>, eps: usize) {
-//     assert_eq!(a.len(), b.len());
-//     a.iter().for_each(|row| assert_eq!(row.len(), c.len()));
-//     todo!();
-// }
+pub fn run() {
+    const EPS: usize = 2;
+
+    let new = solve_new(
+        vec![9., 10., 16.],
+        vec![vec![18., 15., 12.], vec![6., 4., 8.], vec![5., 3., 3.]],
+        vec![1., 1., 1., 315., 174., 169.],
+        vec![360., 192., 180.],
+        0.5,
+        EPS,
+    );
+
+    // let solution = solve_old(
+    //     vec![2., 2., 4., 3.],
+    //     vec![vec![2., -2., 8., 0.], vec![-6., -1., 0., -1.]],
+    //     vec![-2., 3., 0., 0.],
+    //     0.5,
+    //     0.01_f64.powi(EPS as i32 + 1),
+    // )
+    // .unwrap();
+
+    // for (i, iteration) in solution.enumerate().map(|(i, it)| (i + 1, it)) {
+    //     let it = iteration.unwrap();
+    //     println!("Iteration {i}");
+    //     println!("x:{:.EPS$}", it.x);
+    //     println!("fn:{:.EPS$}", it.objective_fn);
+    // }
+}
+
+pub fn solve_new(
+    c: Vec<f64>,
+    a: Vec<Vec<f64>>,
+    initial_point: Vec<f64>,
+    b: Vec<f64>,
+    alpha: f64,
+    eps: usize,
+) {
+    let n = a.len();
+    let m = a.first().unwrap().len();
+
+    assert_eq!(b.len(), n);
+    a.iter().for_each(|row| assert_eq!(row.len(), c.len()));
+    assert_eq!(initial_point.len(), n + m);
+
+    let d = DMatrix::from_diagonal(&DVector::from_vec(initial_point));
+    let a = {
+        let mut a = DMatrix::from_row_iterator(n, m, a.into_iter().flatten())
+            .resize_horizontally(n + m, 0.0);
+
+        a.view_mut((0, n), (n, n)).fill_with_identity();
+
+        a
+    };
+    let c = DVector::from_vec(c).resize_vertically(n + m, 0.0);
+
+    let a_tilde = &a * &d;
+    let c_tilde = &d * c;
+
+    let i = DMatrix::identity(n + m, n + m);
+    let p = i - a_tilde.tr_mul(&(&a_tilde * a_tilde.transpose()).try_inverse().unwrap()) * a_tilde;
+    let c_p = p * c_tilde;
+
+    let nu = c_p
+        .into_iter()
+        .filter(|it| it < &&0.0)
+        .max_by(|a, b| a.abs().partial_cmp(&b.abs()).unwrap())
+        .unwrap();
+    let x_tilde = DVector::from_element(n + m, 1.0) + (alpha / nu) * c_p;
+
+    let x = d * x_tilde;
+
+    println!("{a}");
+}
