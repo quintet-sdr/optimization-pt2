@@ -11,7 +11,10 @@ publish.workspace = true
 
 [dependencies]
 crossterm = "0.28.1"
-ratatui = { version = "0.28.1", default-features = false, features = ["crossterm"] }
+ratatui = { version = "0.28.1", default-features = false, features = [
+  "crossterm",
+] }
+pt2-core = { path = "../pt2-core" }
 
 [lints]
 workspace = true

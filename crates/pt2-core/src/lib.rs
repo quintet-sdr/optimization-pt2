@@ -15,6 +15,11 @@ pub struct Solution {
     _z: f64,
 }
 
-pub fn interior_point() -> Result<Solution, Error> {
+pub fn interior_point(
+    c: Vec<f64>,
+    a: Vec<Vec<f64>>,
+    b: Vec<f64>,
+    eps: i32,
+) -> Result<Solution, Error> {
     todo!()
 }
