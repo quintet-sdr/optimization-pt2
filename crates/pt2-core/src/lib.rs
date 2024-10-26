@@ -53,9 +53,8 @@ impl Iterator for Ipa {
         let i = DMatrix::<f64>::identity(self.c.nrows(), self.c.nrows());
 
         let f = &aa * aa.transpose();
-        let fi = match f.try_inverse() {
-            Some(inv) => inv,
-            None => return Some(Err(NotApplicableError)),
+        let Some(fi) = f.try_inverse() else {
+            return Some(Err(NotApplicableError));
         };
         let h = aa.tr_mul(&fi);
 
