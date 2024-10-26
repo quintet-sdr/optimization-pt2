@@ -1,4 +1,4 @@
-use na::{DMatrix, DVector, Matrix};
+use na::{DMatrix, DVector};
 use thiserror::Error;
 
 #[derive(Error, Debug)]
@@ -38,12 +38,11 @@ fn interior_point_algorithm(
     epsilon: f64,
 ) {
     let mut x = DVector::from_vec(initial_x);
-    let a = DMatrix::from_vec(
-        initial_a.first().unwrap().len(),
+    let a = DMatrix::from_row_iterator(
         initial_a.len(),
-        IntoIterator::into_iter(initial_a).flatten().collect(),
-    )
-    .transpose();
+        initial_a.first().unwrap().len(),
+        IntoIterator::into_iter(initial_a).flatten(),
+    );
     let c = DVector::from_vec(initial_c);
 
     if cfg!(debug_assertions) {
@@ -54,7 +53,7 @@ fn interior_point_algorithm(
 
     let mut iteration = 1;
     loop {
-        let d = Matrix::from_diagonal(&x);
+        let d = DMatrix::from_diagonal(&x);
 
         let aa = &a * &d;
         let cc = &d * &c;
