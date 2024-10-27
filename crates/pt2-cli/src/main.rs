@@ -10,17 +10,22 @@ fn main() {
     for generate_test in tests::generators() {
         for alpha in [ALPHA_1, ALPHA_2] {
             let Lpp {
-                objective_function: c,
-                constraints: a,
+                objective_function,
+                constraints,
                 initial_point,
-                rhs_numbers: b,
             } = generate_test();
 
-            let result = pt2_core::interior_point(c, a, initial_point, b, EPS, alpha)
-                .unwrap()
-                .last()
-                .unwrap()
-                .unwrap();
+            let result = pt2_core::interior_point(
+                objective_function,
+                constraints,
+                initial_point,
+                EPS,
+                alpha,
+            )
+            .unwrap()
+            .last()
+            .unwrap()
+            .unwrap();
 
             println!("alpha: {alpha:.EPS$}");
             println!("max: {:.EPS$}", result.max);
