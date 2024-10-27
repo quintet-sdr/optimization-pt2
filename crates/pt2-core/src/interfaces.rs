@@ -1,5 +1,3 @@
-use std::cmp::Ordering;
-
 use na::{DMatrix, DVector};
 use thiserror::Error;
 
