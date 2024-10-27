@@ -15,17 +15,29 @@ fn main() {
                 initial_point,
             } = generate_test();
 
-            let result = pt2_core::interior_point(
+            let iterations = match pt2_core::interior_point(
                 objective_function,
                 constraints,
                 initial_point,
                 EPS,
                 alpha,
-            )
-            .unwrap()
-            .last()
-            .unwrap()
-            .unwrap();
+            ) {
+                Ok(it) => it,
+                Err(err) => {
+                    println!("{err}");
+                    continue;
+                }
+            };
+
+            let last = iterations.last().unwrap();
+
+            let result = match last {
+                Ok(it) => it,
+                Err(err) => {
+                    println!("{err}");
+                    continue;
+                }
+            };
 
             println!("alpha: {alpha:.EPS$}");
             println!("max: {:.EPS$}", result.max);
