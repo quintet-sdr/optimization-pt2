@@ -1,7 +1,3 @@
-// use std::io;
-
-// use self::app::App;
-
 use crate::tests::Lpp;
 
 mod app;
@@ -33,10 +29,3 @@ fn main() {
         }
     }
 }
-
-// fn start_tui() -> io::Result<()> {
-//     let mut terminal = ratatui::init();
-//     let app_result = App::default().run(&mut terminal);
-//     ratatui::restore();
-//     app_result
-// }
