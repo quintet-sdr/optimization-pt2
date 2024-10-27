@@ -53,13 +53,3 @@ impl Sign {
         cmp_function(a, b)
     }
 }
-
-impl From<Ordering> for Sign {
-    fn from(value: Ordering) -> Self {
-        match value {
-            Ordering::Less => Self::Le,
-            Ordering::Equal => Self::Eq,
-            Ordering::Greater => Self::Ge,
-        }
-    }
-}
