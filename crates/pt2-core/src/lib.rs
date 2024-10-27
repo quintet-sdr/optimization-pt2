@@ -38,37 +38,42 @@ pub fn interior_point(
         return Err(NotApplicableError);
     }
 
+    let x = DVector::from_vec(initial_point);
+    let big_a = {
+        let left_part_row_elements = constraints
+            .iter()
+            .flat_map(|(coefficients, _, _)| *coefficients)
+            .copied();
+
+        let right_part_diagonal_elements = &DVector::from_vec(
+            constraints
+                .iter()
+                .filter_map(|(_, sign, _)| match sign {
+                    Sign::Le => Some(1.),
+                    Sign::Ge => Some(-1.),
+                    Sign::Eq => None,
+                })
+                .collect(),
+        );
+
+        let mut big_a = DMatrix::from_row_iterator(n, m, left_part_row_elements)
+            .resize_horizontally(n + right_part_diagonal_elements.len(), 0.0);
+
+        big_a
+            .view_mut((0, n), (n, right_part_diagonal_elements.len()))
+            .set_diagonal(right_part_diagonal_elements);
+
+        big_a
+    };
+    let c = DVector::from_vec(objective_function).resize_vertically(n + m, 0.0);
+    let eps = up_to_n_dec_places(i32::try_from(eps).map_err(|_| NotApplicableError)?);
+
     Ok(InteriorPoint {
         done: false,
-        x: DVector::from_vec(initial_point),
-        big_a: {
-            let left_part_row_elements = constraints
-                .iter()
-                .flat_map(|(coefficients, _, _)| *coefficients)
-                .copied();
-
-            let right_part_diagonal_elements = &DVector::from_vec(
-                constraints
-                    .iter()
-                    .filter_map(|(_, sign, _)| match sign {
-                        Sign::Le => Some(1.),
-                        Sign::Ge => Some(-1.),
-                        Sign::Eq => None,
-                    })
-                    .collect(),
-            );
-
-            let mut big_a = DMatrix::from_row_iterator(n, m, left_part_row_elements)
-                .resize_horizontally(n + right_part_diagonal_elements.len(), 0.0);
-
-            big_a
-                .view_mut((0, n), (n, right_part_diagonal_elements.len()))
-                .set_diagonal(right_part_diagonal_elements);
-
-            big_a
-        },
-        c: DVector::from_vec(objective_function).resize_vertically(n + m, 0.0),
-        eps: up_to_n_dec_places(i32::try_from(eps).map_err(|_| NotApplicableError)?),
+        x,
+        big_a,
+        c,
+        eps,
         alpha,
     })
 }
