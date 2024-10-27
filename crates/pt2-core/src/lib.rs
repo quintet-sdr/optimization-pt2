@@ -57,7 +57,7 @@ pub fn interior_point(
         );
 
         let mut big_a = DMatrix::from_row_iterator(n, m, left_part_row_elements)
-            .resize_horizontally(n + right_part_diagonal_elements.len(), 0.0);
+            .resize_horizontally(n + right_part_diagonal_elements.len(), 0.);
 
         big_a
             .view_mut((0, n), (n, right_part_diagonal_elements.len()))
@@ -65,7 +65,7 @@ pub fn interior_point(
 
         big_a
     };
-    let c = DVector::from_vec(objective_function).resize_vertically(n + m, 0.0);
+    let c = DVector::from_vec(objective_function).resize_vertically(n + m, 0.);
     let eps = up_to_n_dec_places(i32::try_from(eps).map_err(|_| NotApplicableError)?);
 
     Ok(InteriorPoint {

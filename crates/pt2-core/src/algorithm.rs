@@ -35,7 +35,7 @@ impl Iterator for InteriorPoint {
         else {
             return Some(Err(NoSolutionError));
         };
-        let x_tilde = DVector::from_element(size, 1.0) + (self.alpha / nu) * &c_p;
+        let x_tilde = DVector::from_element(size, 1.) + (self.alpha / nu) * &c_p;
 
         let new_x = &big_d * &x_tilde;
         if (&new_x - &self.x).norm() < self.eps {
