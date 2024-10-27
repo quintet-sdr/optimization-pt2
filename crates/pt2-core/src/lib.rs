@@ -9,7 +9,7 @@ mod interfaces;
 #[allow(clippy::many_single_char_names)]
 pub fn interior_point(
     objective_function: Vec<f64>,
-    constraints: Vec<(Vec<f64>, Sign, f64)>,
+    constraints: &[(&[f64], Sign, f64)],
     initial_point: Vec<f64>,
     eps: usize,
     alpha: f64,
@@ -43,7 +43,8 @@ pub fn interior_point(
         done: false,
         x: DVector::from_vec(initial_point),
         big_a: {
-            let a = a.iter().copied().flatten().copied();
+            todo!();
+            let a = constraints.iter().map(|(a, _, _)| *a).flatten().copied();
             let mut big_a = DMatrix::from_row_iterator(n, m, a).resize_horizontally(n + m, 0.0);
             big_a.view_mut((0, n), (n, n)).fill_with_identity();
             big_a
