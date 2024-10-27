@@ -24,15 +24,17 @@ pub fn interior_point(
     {
         return Err(NotApplicableError);
     }
-    let initial_point_is_feasible = a.iter().zip(b).all(|(constraint_factors, rhs)| {
-        let constraint_sum: f64 = constraint_factors
+
+    let initial_point_is_feasible = constraints.iter().all(|(coefficients, sign, rhs)| {
+        let constraint_sum: f64 = coefficients
             .iter()
             .zip(&initial_point)
-            .map(|(factor, x)| factor * x)
+            .map(|(coeff, x)| coeff * x)
             .sum();
 
-        &constraint_sum <= rhs
+        sign.compare(&constraint_sum, rhs)
     });
+
     if !initial_point_is_feasible {
         return Err(NotApplicableError);
     }
