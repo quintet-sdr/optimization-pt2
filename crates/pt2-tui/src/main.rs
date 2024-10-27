@@ -27,6 +27,7 @@ fn main() {
                 .unwrap()
                 .unwrap();
 
+            println!("alpha: {alpha:.EPS$}");
             println!("max: {:.EPS$}", result.max);
             println!("x:{:.EPS$}", result.x);
         }
