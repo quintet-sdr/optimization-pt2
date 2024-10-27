@@ -97,6 +97,8 @@ pub fn run() {
         EPS,
     );
 
+    println!("{}", new.unwrap());
+
     // let solution = solve_old(
     //     vec![2., 2., 4., 3.],
     //     vec![vec![2., -2., 8., 0.], vec![-6., -1., 0., -1.]],
@@ -121,7 +123,7 @@ pub fn solve_new(
     b: Vec<f64>,
     alpha: f64,
     eps: usize,
-) -> Result<DVector<f64>, ()> {
+) -> Result<DVector<f64>, error::NoSolution> {
     let n = a.len();
     let m = a.first().unwrap().len();
     let eps = 0.1_f64.powi(eps as i32 + 1);
@@ -150,7 +152,7 @@ pub fn solve_new(
             let big_i = DMatrix::identity(n + m, n + m);
             let big_a_tilde_tr = big_a_tilde.transpose();
             let Some(inverse) = (&big_a_tilde * &big_a_tilde_tr).try_inverse() else {
-                return Err(());
+                return Err(error::NoSolution);
             };
             big_i - big_a_tilde_tr * inverse * big_a_tilde
         };
@@ -161,7 +163,7 @@ pub fn solve_new(
             .filter(|it| it < &&0.0)
             .max_by(|a, b| a.abs().partial_cmp(&b.abs()).unwrap())
         else {
-            return Err(());
+            return Err(error::NoSolution);
         };
         let x_tilde = DVector::from_element(n + m, 1.0) + (alpha / nu) * c_p;
 
