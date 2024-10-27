@@ -48,19 +48,19 @@ pub fn interior_point(
         let right_part_diagonal_elements = &DVector::from_vec(
             constraints
                 .iter()
-                .filter_map(|(_, sign, _)| match sign {
-                    Sign::Le => Some(1.),
-                    Sign::Ge => Some(-1.),
-                    Sign::Eq => None,
+                .map(|(_, sign, _)| match sign {
+                    Sign::Le => 1.,
+                    Sign::Eq => 0.,
+                    Sign::Ge => -1.,
                 })
                 .collect(),
         );
 
-        let mut big_a = DMatrix::from_row_iterator(n, m, left_part_row_elements)
-            .resize_horizontally(n + right_part_diagonal_elements.len(), 0.);
+        let mut big_a =
+            DMatrix::from_row_iterator(n, m, left_part_row_elements).resize_horizontally(m + n, 0.);
 
         big_a
-            .view_mut((0, n), (n, right_part_diagonal_elements.len()))
+            .view_mut((0, m), (n, m))
             .set_diagonal(right_part_diagonal_elements);
 
         big_a
