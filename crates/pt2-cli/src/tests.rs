@@ -5,7 +5,7 @@ pub struct Lpp<'a> {
     pub rhs_numbers: &'a [f64],
 }
 
-pub fn all<'a>() -> &'a [fn() -> Lpp<'a>] {
+pub fn generators<'a>() -> &'a [fn() -> Lpp<'a>] {
     &[lab_6_problem_2]
 }
 

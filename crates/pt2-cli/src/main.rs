@@ -7,7 +7,7 @@ fn main() {
     const ALPHA_1: f64 = 0.5;
     const ALPHA_2: f64 = 0.9;
 
-    for generate_test in tests::all() {
+    for generate_test in tests::generators() {
         for alpha in [ALPHA_1, ALPHA_2] {
             let Lpp {
                 objective_function: c,
