@@ -129,7 +129,8 @@ pub fn solve_new(
     a.iter().for_each(|row| assert_eq!(row.len(), c.len()));
     assert_eq!(initial_point.len(), n + m);
 
-    let big_d = DMatrix::from_diagonal(&DVector::from_vec(initial_point));
+    let mut x = DVector::from_vec(initial_point);
+
     let big_a = {
         let a = a.into_iter().flatten();
         let mut big_a = DMatrix::from_row_iterator(n, m, a).resize_horizontally(n + m, 0.0);
@@ -138,30 +139,33 @@ pub fn solve_new(
     };
     let c = DVector::from_vec(c).resize_vertically(n + m, 0.0);
 
-    let big_a_tilde = &big_a * &big_d;
-    let c_tilde = &big_d * c;
+    loop {
+        let big_d = DMatrix::from_diagonal(&x);
 
-    let big_p = {
-        let big_i = DMatrix::identity(n + m, n + m);
-        let big_a_tilde_tr = big_a_tilde.transpose();
+        let big_a_tilde = &big_a * &big_d;
+        let c_tilde = &big_d * &c;
 
-        let Some(inverse) = (&big_a_tilde * &big_a_tilde_tr).try_inverse() else {
+        let big_p = {
+            let big_i = DMatrix::identity(n + m, n + m);
+            let big_a_tilde_tr = big_a_tilde.transpose();
+            let Some(inverse) = (&big_a_tilde * &big_a_tilde_tr).try_inverse() else {
+                return Err(());
+            };
+            big_i - big_a_tilde_tr * inverse * big_a_tilde
+        };
+        let c_p = big_p * c_tilde;
+
+        let Some(nu) = c_p
+            .into_iter()
+            .filter(|it| it < &&0.0)
+            .max_by(|a, b| a.abs().partial_cmp(&b.abs()).unwrap())
+        else {
             return Err(());
         };
-        big_i - big_a_tilde_tr * inverse * big_a_tilde
-    };
-    let c_p = big_p * c_tilde;
+        let x_tilde = DVector::from_element(n + m, 1.0) + (alpha / nu) * c_p;
 
-    let Some(nu) = c_p
-        .into_iter()
-        .filter(|it| it < &&0.0)
-        .max_by(|a, b| a.abs().partial_cmp(&b.abs()).unwrap())
-    else {
-        return Err(());
-    };
-    let x_tilde = DVector::from_element(n + m, 1.0) + (alpha / nu) * c_p;
+        x = big_d * x_tilde;
+    }
 
-    let x = big_d * x_tilde;
-
-    Ok(())
+    // Ok(())
 }
