@@ -37,6 +37,6 @@ pub fn interior_point(
         big_a,
         c,
         alpha,
-        eps: 0.1_f64.powi(eps as i32 + 1),
+        eps: 0.1_f64.powi(<i32>::try_from(eps).map_err(|_| NotApplicableError)? + 1),
     })
 }
