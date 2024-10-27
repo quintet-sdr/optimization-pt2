@@ -11,8 +11,6 @@ pub fn generators<'a>() -> &'a [fn() -> Lpp<'a>] {
     &[lab_6_problem_2]
 }
 
-struct Constraint(Vec<f64>, Sign, f64);
-
 fn lab_6_problem_2<'a>() -> Lpp<'a> {
     let s = &[Ordering::Less, Ordering::Less, Ordering::Less];
 
