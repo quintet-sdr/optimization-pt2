@@ -42,12 +42,12 @@ pub fn interior_point(
         done: false,
         x: DVector::from_vec(initial_point),
         big_a: {
-            let left_part_elements = constraints
+            let left_part_row_elements = constraints
                 .iter()
                 .flat_map(|(coefficients, _, _)| *coefficients)
                 .copied();
 
-            let right_part_diagonal = &DVector::from_vec(
+            let right_part_diagonal_elements = &DVector::from_vec(
                 constraints
                     .iter()
                     .filter_map(|(_, sign, _)| match sign {
@@ -58,12 +58,12 @@ pub fn interior_point(
                     .collect(),
             );
 
-            let mut big_a = DMatrix::from_row_iterator(n, m, left_part_elements)
-                .resize_horizontally(n + right_part_diagonal.len(), 0.0);
+            let mut big_a = DMatrix::from_row_iterator(n, m, left_part_row_elements)
+                .resize_horizontally(n + right_part_diagonal_elements.len(), 0.0);
 
             big_a
-                .view_mut((0, n), (n, right_part_diagonal.len()))
-                .set_diagonal(right_part_diagonal);
+                .view_mut((0, n), (n, right_part_diagonal_elements.len()))
+                .set_diagonal(right_part_diagonal_elements);
 
             big_a
         },
