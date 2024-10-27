@@ -2,7 +2,7 @@
 
 // use self::app::App;
 
-use tests::Lpp;
+use crate::tests::Lpp;
 
 mod app;
 mod tests;
@@ -15,10 +15,10 @@ fn main() {
     for generate_test in [tests::generate_1] {
         for alpha in [ALPHA_1, ALPHA_2] {
             let Lpp {
-                c,
-                a,
+                objective_function: c,
+                constraints: a,
                 initial_point,
-                b,
+                rhs_numbers: b,
             } = generate_test();
 
             let result = pt2_core::interior_point(c, a, initial_point, b, EPS, alpha)
