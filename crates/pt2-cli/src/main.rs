@@ -3,7 +3,7 @@ use crate::tests::Lpp;
 mod tests;
 
 fn main() {
-    const EPS: usize = 3;
+    const EPS: usize = 2;
     const ALPHA_1: f64 = 0.5;
     const ALPHA_2: f64 = 0.9;
 
