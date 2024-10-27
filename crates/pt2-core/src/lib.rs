@@ -2,7 +2,7 @@ use na::{DMatrix, DVector};
 
 mod error;
 
-pub struct Auxilliary {
+pub struct Auxiliary {
     big_d: DMatrix<f64>,
     big_a_tilde: DMatrix<f64>,
     c_tilde: DVector<f64>,
@@ -13,7 +13,7 @@ pub struct Auxilliary {
 }
 
 pub struct Iteration {
-    auxilliary: Auxilliary,
+    auxiliary: Auxiliary,
     x: DVector<f64>,
 }
 
@@ -69,7 +69,7 @@ impl Iterator for InteriorPoint {
         self.x = new_x;
 
         Some(Ok(Iteration {
-            auxilliary: Auxilliary {
+            auxiliary: Auxiliary {
                 big_d,
                 big_a_tilde,
                 c_tilde,
