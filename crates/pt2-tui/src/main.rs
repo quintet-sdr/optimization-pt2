@@ -1,6 +1,5 @@
 use crate::tests::Lpp;
 
-mod app;
 mod tests;
 
 fn main() {
