@@ -10,7 +10,7 @@ pub fn interior_point(
     c: Vec<f64>,
     a: Vec<Vec<f64>>,
     initial_point: Vec<f64>,
-    b: Vec<f64>,
+    b: &[f64],
     alpha: f64,
     eps: usize,
 ) -> Result<InteriorPoint, NotApplicableError> {
