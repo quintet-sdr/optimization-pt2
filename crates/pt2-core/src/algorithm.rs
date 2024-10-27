@@ -29,8 +29,7 @@ impl Iterator for InteriorPoint {
 
         let Some(nu) = c_p
             .iter()
-            .filter(|it| it < &&0.)
-            .map(|it| it.abs())
+            .filter_map(|it| (it < &0.).then_some(it.abs()))
             .max_by(|a, b| a.partial_cmp(b).unwrap())
         else {
             return Some(Err(NoSolutionError));
