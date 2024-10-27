@@ -1,25 +1,25 @@
-use interfaces::NoSolutionError;
+use interfaces::NotApplicableError;
 use na::{DMatrix, DVector};
 
-use self::interfaces::InteriorPoint;
+use crate::interfaces::InteriorPoint;
 
 mod algorithm;
 mod interfaces;
 
-pub fn solve(
+pub fn interior_point(
     c: Vec<f64>,
     a: Vec<Vec<f64>>,
     initial_point: Vec<f64>,
     b: Vec<f64>,
     alpha: f64,
     eps: usize,
-) -> Result<InteriorPoint, NoSolutionError> {
+) -> Result<InteriorPoint, NotApplicableError> {
     let n = a.len();
-    let m = a.first().unwrap().len();
+    let m = a.first().ok_or(NotApplicableError)?.len();
 
-    assert_eq!(b.len(), n);
-    a.iter().for_each(|row| assert_eq!(row.len(), c.len()));
-    assert_eq!(initial_point.len(), n + m);
+    if b.len() != n || a.iter().any(|row| row.len() != c.len()) || initial_point.len() != n + m {
+        return Err(NotApplicableError);
+    }
 
     let x = DVector::from_vec(initial_point);
 
@@ -39,17 +39,4 @@ pub fn solve(
         alpha,
         eps: 0.1_f64.powi(eps as i32 + 1),
     })
-}
-
-pub fn run() {
-    const EPS: usize = 2;
-
-    let _ = solve(
-        vec![9., 10., 16.],
-        vec![vec![18., 15., 12.], vec![6., 4., 8.], vec![5., 3., 3.]],
-        vec![1., 1., 1., 315., 174., 169.],
-        vec![360., 192., 180.],
-        0.5,
-        EPS,
-    );
 }
