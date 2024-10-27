@@ -1,3 +1,5 @@
+use std::cmp::Ordering;
+
 use na::{DMatrix, DVector};
 use thiserror::Error;
 
@@ -32,4 +34,20 @@ pub struct InteriorPoint {
     pub(crate) c: DVector<f64>,
     pub(crate) eps: f64,
     pub(crate) alpha: f64,
+}
+
+pub enum Sign {
+    Le,
+    Eq,
+    Ge,
+}
+
+impl From<Ordering> for Sign {
+    fn from(value: Ordering) -> Self {
+        match value {
+            Ordering::Less => Self::Le,
+            Ordering::Equal => Self::Eq,
+            Ordering::Greater => Self::Ge,
+        }
+    }
 }
