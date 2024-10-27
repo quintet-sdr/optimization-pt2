@@ -21,6 +21,7 @@ impl Iterator for InteriorPoint {
             let big_i = DMatrix::identity(size, size);
             let big_a_tilde_tr = big_a_tilde.transpose();
             let Some(inverse) = (&big_a_tilde * &big_a_tilde_tr).try_inverse() else {
+                self.done = true;
                 return Some(Err(NoSolutionError));
             };
             big_i - big_a_tilde_tr * inverse * &big_a_tilde
@@ -32,6 +33,7 @@ impl Iterator for InteriorPoint {
             .filter_map(|it| (it < &0.).then_some(it.abs()))
             .max_by(|a, b| a.partial_cmp(b).unwrap())
         else {
+            self.done = true;
             return Some(Err(NoSolutionError));
         };
         let x_tilde = DVector::from_element(size, 1.) + (self.alpha / nu) * &c_p;
