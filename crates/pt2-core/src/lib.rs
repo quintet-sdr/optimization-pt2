@@ -4,6 +4,12 @@ mod error;
 
 pub struct Auxilliary {
     big_d: DMatrix<f64>,
+    big_a_tilde: DMatrix<f64>,
+    c_tilde: DVector<f64>,
+    big_p: DMatrix<f64>,
+    c_p: DVector<f64>,
+    nu: f64,
+    x_tilde: DVector<f64>,
 }
 
 pub struct Iteration {
@@ -41,21 +47,21 @@ impl Iterator for InteriorPoint {
             let Some(inverse) = (&big_a_tilde * &big_a_tilde_tr).try_inverse() else {
                 return Some(Err(error::NotApplicable));
             };
-            big_i - big_a_tilde_tr * inverse * big_a_tilde
+            big_i - big_a_tilde_tr * inverse * &big_a_tilde
         };
-        let c_p = big_p * c_tilde;
+        let c_p = &big_p * &c_tilde;
 
         let Some(nu) = c_p
-            .into_iter()
+            .iter()
             .filter(|it| it < &&0.0)
             .map(|it| it.abs())
             .max_by(|a, b| a.partial_cmp(b).unwrap())
         else {
             return Some(Err(error::NotApplicable));
         };
-        let x_tilde = DVector::from_element(size, 1.0) + (self.alpha / nu) * c_p;
+        let x_tilde = DVector::from_element(size, 1.0) + (self.alpha / nu) * &c_p;
 
-        let new_x = &big_d * x_tilde;
+        let new_x = &big_d * &x_tilde;
         if (&new_x - &self.x).norm() < self.eps {
             self.done = true;
         }
@@ -64,7 +70,13 @@ impl Iterator for InteriorPoint {
 
         Some(Ok(Iteration {
             auxilliary: Auxilliary {
-                big_d: big_d.clone_owned(),
+                big_d,
+                big_a_tilde,
+                c_tilde,
+                big_p,
+                c_p,
+                nu,
+                x_tilde,
             },
             x: self.x.clone_owned(),
         }))
@@ -110,7 +122,7 @@ pub fn solve(
 pub fn run() {
     const EPS: usize = 2;
 
-    let iterations = solve(
+    let _ = solve(
         vec![9., 10., 16.],
         vec![vec![18., 15., 12.], vec![6., 4., 8.], vec![5., 3., 3.]],
         vec![1., 1., 1., 315., 174., 169.],
