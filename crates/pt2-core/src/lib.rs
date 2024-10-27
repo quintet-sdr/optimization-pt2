@@ -1,6 +1,7 @@
 use na::{DMatrix, DVector};
 
-use crate::interfaces::{InteriorPoint, NotApplicableError, Sign};
+pub use crate::interfaces::Sign;
+use crate::interfaces::{InteriorPoint, NotApplicableError};
 
 mod algorithm;
 mod interfaces;
@@ -13,12 +14,13 @@ pub fn interior_point(
     eps: usize,
     alpha: f64,
 ) -> Result<InteriorPoint, NotApplicableError> {
-    let n = a.len();
-    let m = a.first().ok_or(NotApplicableError)?.len();
+    let n = constraints.len();
+    let m = constraints.first().ok_or(NotApplicableError)?.0.len();
 
-    if b.len() != n
-        || initial_point.len() != n + m
-        || a.iter().any(|row| row.len() != objective_function.len())
+    if initial_point.len() != n + m
+        || constraints
+            .iter()
+            .any(|row| row.0.len() != objective_function.len())
     {
         return Err(NotApplicableError);
     }
