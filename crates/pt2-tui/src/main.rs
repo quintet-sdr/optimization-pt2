@@ -6,13 +6,15 @@ mod app;
 
 fn main() {
     const EPS: usize = 3;
+    const ALPHA_1: f64 = 0.5;
+    // const ALPHA_2: f64 = 0.9;
 
     let iterations = pt2_core::interior_point(
         vec![9., 10., 16.],
         vec![vec![18., 15., 12.], vec![6., 4., 8.], vec![5., 3., 3.]],
         vec![1., 1., 1., 315., 174., 169.],
         &[360., 192., 180.],
-        0.5,
+        ALPHA_1,
         EPS,
     )
     .unwrap();
