@@ -18,7 +18,19 @@ pub fn interior_point(
     let n = a.len();
     let m = a.first().ok_or(NotApplicableError)?.len();
 
-    if b.len() != n || a.iter().any(|row| row.len() != c.len()) || initial_point.len() != n + m {
+    if b.len() != n || initial_point.len() != n + m || a.iter().any(|row| row.len() != c.len()) {
+        return Err(NotApplicableError);
+    }
+    let initial_point_is_feasible = a.iter().zip(b).all(|(constraint_factors, rhs)| {
+        let constraint_sum: f64 = constraint_factors
+            .iter()
+            .zip(&initial_point)
+            .map(|(factor, x)| factor * x)
+            .sum();
+
+        &constraint_sum <= rhs
+    });
+    if !initial_point_is_feasible {
         return Err(NotApplicableError);
     }
 
