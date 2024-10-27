@@ -121,7 +121,7 @@ pub fn solve_new(
     b: Vec<f64>,
     alpha: f64,
     eps: usize,
-) -> Result<(), ()> {
+) -> Result<DVector<f64>, ()> {
     let n = a.len();
     let m = a.first().unwrap().len();
     let eps = 0.1_f64.powi(eps as i32 + 1);
@@ -173,5 +173,5 @@ pub fn solve_new(
         }
     }
 
-    Ok(())
+    Ok(x)
 }
