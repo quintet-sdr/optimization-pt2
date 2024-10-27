@@ -45,9 +45,9 @@ pub enum Sign {
 impl Sign {
     pub fn compare<T: PartialOrd>(&self, a: &T, b: &T) -> bool {
         let cmp_function = match self {
-            Sign::Le => PartialOrd::le,
-            Sign::Eq => PartialEq::eq,
-            Sign::Ge => PartialOrd::ge,
+            Self::Le => PartialOrd::le,
+            Self::Eq => PartialEq::eq,
+            Self::Ge => PartialOrd::ge,
         };
 
         cmp_function(a, b)
