@@ -30,6 +30,6 @@ pub struct InteriorPoint {
     pub(crate) x: DVector<f64>,
     pub(crate) big_a: DMatrix<f64>,
     pub(crate) c: DVector<f64>,
-    pub(crate) alpha: f64,
     pub(crate) eps: f64,
+    pub(crate) alpha: f64,
 }

@@ -12,8 +12,8 @@ pub fn interior_point(
     a: &[&[f64]],
     initial_point: Vec<f64>,
     b: &[f64],
-    alpha: f64,
     eps: usize,
+    alpha: f64,
 ) -> Result<InteriorPoint, NotApplicableError> {
     let n = a.len();
     let m = a.first().ok_or(NotApplicableError)?.len();
@@ -44,8 +44,8 @@ pub fn interior_point(
             big_a
         },
         c: DVector::from_vec(c).resize_vertically(n + m, 0.0),
-        alpha,
         eps: up_to_n_dec_places(i32::try_from(eps).map_err(|_| NotApplicableError)?),
+        alpha,
     })
 }
 
