@@ -33,6 +33,6 @@ pub fn interior_point(
         },
         c: DVector::from_vec(c).resize_vertically(n + m, 0.0),
         alpha,
-        eps: 0.1_f64.powi(<i32>::try_from(eps).map_err(|_| NotApplicableError)? + 1),
+        eps: 0.1_f64.powi(<i32>::try_from(eps).map_err(|_| NotApplicableError)?) / 2.0,
     })
 }
