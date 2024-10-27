@@ -1,7 +1,6 @@
-use interfaces::{NotApplicableError, Sign};
 use na::{DMatrix, DVector};
 
-use crate::interfaces::InteriorPoint;
+use crate::interfaces::{InteriorPoint, NotApplicableError, Sign};
 
 mod algorithm;
 mod interfaces;
