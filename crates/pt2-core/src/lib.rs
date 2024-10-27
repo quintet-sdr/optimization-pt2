@@ -38,7 +38,7 @@ pub fn interior_point(
         done: false,
         x: DVector::from_vec(initial_point),
         big_a: {
-            let a = a.iter().map(|it| *it).flatten().map(|it| *it);
+            let a = a.iter().copied().flatten().copied();
             let mut big_a = DMatrix::from_row_iterator(n, m, a).resize_horizontally(n + m, 0.0);
             big_a.view_mut((0, n), (n, n)).fill_with_identity();
             big_a
