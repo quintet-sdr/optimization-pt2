@@ -2,6 +2,8 @@
 
 // use self::app::App;
 
+use tests::Lpp;
+
 mod app;
 mod tests;
 
@@ -12,14 +14,21 @@ fn main() {
 
     for generate_test in [tests::generate_1] {
         for alpha in [ALPHA_1, ALPHA_2] {
-            let test = generate_test();
+            let Lpp {
+                c,
+                a,
+                initial_point,
+                b,
+            } = generate_test();
 
-            let result =
-                pt2_core::interior_point(test.c, test.a, test.initial_point, test.b, EPS, ALPHA_1)
-                    .unwrap()
-                    .last()
-                    .unwrap()
-                    .unwrap();
+            let result = pt2_core::interior_point(c, a, initial_point, b, EPS, alpha)
+                .unwrap()
+                .last()
+                .unwrap()
+                .unwrap();
+
+            println!("max: {:.EPS$}", result.max);
+            println!("x:{:.EPS$}", result.x);
         }
     }
 }
