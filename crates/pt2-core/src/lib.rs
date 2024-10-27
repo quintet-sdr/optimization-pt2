@@ -124,6 +124,7 @@ pub fn solve_new(
 ) -> Result<(), ()> {
     let n = a.len();
     let m = a.first().unwrap().len();
+    let eps = 0.1_f64.powi(eps as i32 + 1);
 
     assert_eq!(b.len(), n);
     a.iter().for_each(|row| assert_eq!(row.len(), c.len()));
@@ -164,8 +165,13 @@ pub fn solve_new(
         };
         let x_tilde = DVector::from_element(n + m, 1.0) + (alpha / nu) * c_p;
 
+        let previous_x = x;
         x = big_d * x_tilde;
+
+        if (&x - previous_x).norm() < eps {
+            break;
+        }
     }
 
-    // Ok(())
+    Ok(())
 }
