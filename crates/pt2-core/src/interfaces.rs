@@ -41,7 +41,10 @@ pub enum Sign {
 }
 
 impl Sign {
-    pub fn compare<T: PartialOrd>(&self, a: &T, b: &T) -> bool {
+    pub fn compare<Lhs, Rhs>(&self, a: &Lhs, b: &Rhs) -> bool
+    where
+        Lhs: PartialOrd<Rhs>,
+    {
         let cmp_function = match self {
             Self::Le => PartialOrd::le,
             Self::Eq => PartialEq::eq,
