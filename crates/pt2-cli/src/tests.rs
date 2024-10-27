@@ -7,7 +7,15 @@ pub struct Lpp<'a> {
 }
 
 pub fn generators<'a>() -> &'a [fn() -> Lpp<'a>] {
-    &[lab_6_problem_2]
+    &[lab_6_problem_1, lab_6_problem_2]
+}
+
+fn lab_6_problem_1<'a>() -> Lpp<'a> {
+    Lpp {
+        objective_function: vec![1., 1.],
+        constraints: &[(&[2., 4.], Sign::Le, 16.), (&[1., 3.], Sign::Ge, 9.)],
+        initial_point: vec![0.5, 3.5, 1., 2.],
+    }
 }
 
 fn lab_6_problem_2<'a>() -> Lpp<'a> {
