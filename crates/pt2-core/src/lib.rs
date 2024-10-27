@@ -42,10 +42,29 @@ pub fn interior_point(
         done: false,
         x: DVector::from_vec(initial_point),
         big_a: {
-            todo!();
-            let a = constraints.iter().flat_map(|(a, _, _)| *a).copied();
-            let mut big_a = DMatrix::from_row_iterator(n, m, a).resize_horizontally(n + m, 0.0);
-            big_a.view_mut((0, n), (n, n)).fill_with_identity();
+            let left_part_elements = constraints
+                .iter()
+                .flat_map(|(coefficients, _, _)| *coefficients)
+                .copied();
+
+            let right_part_diagonal = &DVector::from_vec(
+                constraints
+                    .iter()
+                    .filter_map(|(_, sign, _)| match sign {
+                        Sign::Le => Some(1.),
+                        Sign::Ge => Some(-1.),
+                        Sign::Eq => None,
+                    })
+                    .collect(),
+            );
+
+            let mut big_a = DMatrix::from_row_iterator(n, m, left_part_elements)
+                .resize_horizontally(n + right_part_diagonal.len(), 0.0);
+
+            big_a
+                .view_mut((0, n), (n, right_part_diagonal.len()))
+                .set_diagonal(right_part_diagonal);
+
             big_a
         },
         c: DVector::from_vec(objective_function).resize_vertically(n + m, 0.0),
