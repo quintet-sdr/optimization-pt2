@@ -6,7 +6,6 @@ use crate::interfaces::{InteriorPoint, NotApplicableError};
 mod algorithm;
 mod interfaces;
 
-#[allow(clippy::many_single_char_names)]
 pub fn interior_point(
     objective_function: Vec<f64>,
     constraints: &[(&[f64], Sign, f64)],

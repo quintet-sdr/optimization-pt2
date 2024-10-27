@@ -21,7 +21,7 @@ pub struct Auxiliary {
 
 pub struct Iteration {
     pub auxiliary: Auxiliary,
-    pub x: DVector<f64>,
+    pub decision_variables: DVector<f64>,
     pub max: f64,
 }
 
