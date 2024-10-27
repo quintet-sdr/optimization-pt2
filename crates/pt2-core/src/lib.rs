@@ -1,4 +1,4 @@
-use na::{ComplexField, DMatrix, DVector};
+use na::{DMatrix, DVector};
 
 mod error;
 
@@ -121,7 +121,7 @@ pub fn solve_new(
     b: Vec<f64>,
     alpha: f64,
     eps: usize,
-) {
+) -> Result<(), ()> {
     let n = a.len();
     let m = a.first().unwrap().len();
 
@@ -129,30 +129,39 @@ pub fn solve_new(
     a.iter().for_each(|row| assert_eq!(row.len(), c.len()));
     assert_eq!(initial_point.len(), n + m);
 
-    let d = DMatrix::from_diagonal(&DVector::from_vec(initial_point));
-    let a = {
-        let mut a = DMatrix::from_row_iterator(n, m, a.into_iter().flatten())
-            .resize_horizontally(n + m, 0.0);
-        a.view_mut((0, n), (n, n)).fill_with_identity();
-        a
+    let big_d = DMatrix::from_diagonal(&DVector::from_vec(initial_point));
+    let big_a = {
+        let a = a.into_iter().flatten();
+        let mut big_a = DMatrix::from_row_iterator(n, m, a).resize_horizontally(n + m, 0.0);
+        big_a.view_mut((0, n), (n, n)).fill_with_identity();
+        big_a
     };
     let c = DVector::from_vec(c).resize_vertically(n + m, 0.0);
 
-    let a_tilde = &a * &d;
-    let c_tilde = &d * c;
+    let big_a_tilde = &big_a * &big_d;
+    let c_tilde = &big_d * c;
 
-    let i = DMatrix::identity(n + m, n + m);
-    let p = i - a_tilde.tr_mul(&(&a_tilde * a_tilde.transpose()).try_inverse().unwrap()) * a_tilde;
-    let c_p = p * c_tilde;
+    let big_p = {
+        let big_i = DMatrix::identity(n + m, n + m);
+        let big_a_tilde_tr = big_a_tilde.transpose();
 
-    let nu = c_p
+        let Some(inverse) = (&big_a_tilde * &big_a_tilde_tr).try_inverse() else {
+            return Err(());
+        };
+        big_i - big_a_tilde_tr * inverse * big_a_tilde
+    };
+    let c_p = big_p * c_tilde;
+
+    let Some(nu) = c_p
         .into_iter()
         .filter(|it| it < &&0.0)
         .max_by(|a, b| a.abs().partial_cmp(&b.abs()).unwrap())
-        .unwrap();
+    else {
+        return Err(());
+    };
     let x_tilde = DVector::from_element(n + m, 1.0) + (alpha / nu) * c_p;
 
-    let x = d * x_tilde;
+    let x = big_d * x_tilde;
 
-    println!("{a}");
+    Ok(())
 }
