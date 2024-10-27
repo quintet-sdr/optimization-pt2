@@ -126,7 +126,7 @@ pub fn solve_new(
 ) -> Result<DVector<f64>, error::NoSolution> {
     let n = a.len();
     let m = a.first().unwrap().len();
-    let eps = 0.1_f64.powi(eps as i32 + 1);
+    let new_eps = 0.1_f64.powi(eps as i32 + 1);
 
     assert_eq!(b.len(), n);
     a.iter().for_each(|row| assert_eq!(row.len(), c.len()));
@@ -161,7 +161,8 @@ pub fn solve_new(
         let Some(nu) = c_p
             .into_iter()
             .filter(|it| it < &&0.0)
-            .max_by(|a, b| a.abs().partial_cmp(&b.abs()).unwrap())
+            .map(|it| it.abs())
+            .max_by(|a, b| a.partial_cmp(b).unwrap())
         else {
             return Err(error::NoSolution);
         };
@@ -170,7 +171,7 @@ pub fn solve_new(
         let previous_x = x;
         x = big_d * x_tilde;
 
-        if (&x - previous_x).norm() < eps {
+        if (&x - previous_x).norm() < new_eps {
             break;
         }
     }
