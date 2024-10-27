@@ -21,6 +21,7 @@ fn main() {
         let iteration = iteration.unwrap();
         println!("Iteration {i}");
 
+        println!("max: {:.EPS$}", iteration.max);
         println!("x:{:.EPS$}", iteration.x);
     }
 }

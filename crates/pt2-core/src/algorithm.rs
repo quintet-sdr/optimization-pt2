@@ -55,6 +55,7 @@ impl Iterator for InteriorPoint {
                 x_tilde,
             },
             x: self.x.clone_owned(),
+            max: self.x.dot(&self.c),
         }))
     }
 }

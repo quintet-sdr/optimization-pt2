@@ -22,6 +22,7 @@ pub struct Auxiliary {
 pub struct Iteration {
     pub auxiliary: Auxiliary,
     pub x: DVector<f64>,
+    pub max: f64,
 }
 
 pub struct InteriorPoint {
