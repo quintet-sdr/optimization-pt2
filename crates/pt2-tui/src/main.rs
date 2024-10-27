@@ -5,7 +5,7 @@
 mod app;
 
 fn main() {
-    const EPS: usize = 2;
+    const EPS: usize = 3;
 
     let iterations = pt2_core::interior_point(
         vec![9., 10., 16.],
@@ -17,8 +17,11 @@ fn main() {
     )
     .unwrap();
 
-    for iteration in iterations {
+    for (i, iteration) in iterations.enumerate().map(|(i, it)| (i + 1, it)) {
         let iteration = iteration.unwrap();
+        println!("Iteration {i}");
+
+        println!("x:{:.EPS$}", iteration.x);
     }
 }
 

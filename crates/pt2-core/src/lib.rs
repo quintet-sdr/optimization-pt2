@@ -45,6 +45,10 @@ pub fn interior_point(
         },
         c: DVector::from_vec(c).resize_vertically(n + m, 0.0),
         alpha,
-        eps: 0.1_f64.powi(<i32>::try_from(eps).map_err(|_| NotApplicableError)?) / 2.0,
+        eps: up_to_n_dec_places(i32::try_from(eps).map_err(|_| NotApplicableError)?),
     })
+}
+
+fn up_to_n_dec_places(n: i32) -> f64 {
+    0.1_f64.powi(n) / 2.
 }
