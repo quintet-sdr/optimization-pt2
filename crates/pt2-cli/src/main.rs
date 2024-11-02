@@ -15,10 +15,16 @@ fn main() -> Result<()> {
 
     loop {
         crossterm::execute!(io::stdout(), Clear(ClearType::All))?;
-        let Some(test) = inquire::Select::new("Hello", tests.clone()).prompt_skippable()? else {
+        let Some(test) = inquire::Select::new("Select a test:", tests.clone())
+            .with_vim_mode(true)
+            .prompt_skippable()?
+        else {
             return Ok(());
         };
+
         for alpha in [ALPHA_1, ALPHA_2] {
+            println!("alpha: {alpha:.eps$}", eps = test.eps);
+
             let iterations = match pt2_core::interior_point(
                 test.objective_function.clone(),
                 &test.constraints,
@@ -43,14 +49,19 @@ fn main() -> Result<()> {
                 }
             };
 
-            println!("alpha: {alpha:.eps$}", eps = test.eps);
             println!("max: {:.eps$}", result.max, eps = test.eps);
             println!(
                 "x:{:.eps$}",
                 result.decision_variables.transpose(),
                 eps = test.eps
             );
+            println!();
         }
-        inquire::Confirm::new("foobar").prompt()?;
+
+        if !inquire::Confirm::new("Next test?").prompt()? {
+            break;
+        };
     }
+
+    Ok(())
 }
