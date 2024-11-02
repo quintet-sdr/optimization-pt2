@@ -64,18 +64,18 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
           \begin{itemize}
               \item Objective function: \(F(x_1, x_2) = x_1 + x_2\)
               \item Constraints: \(\begin{cases}
-                        2 x_1 + 4 x_2 \le 16  \\
-                        x_1 + 3 x_2 \ge 9     \\
-                        x_1 , x_2 \ge 0 \\
-                    \end{cases}\)
+                        2 x_1 + 4 x_2 \le 16 \\
+                        x_1 + 3 x_2 \ge 9    \\
+                        x_1 , x_2 \ge 0      \\
+                    \end{cases}\
           \end{itemize}
         \begin{itemize}
-            \item Initial point: \([ \ 0.5 \ 3.5 \ 1 \ 2  \]\)
+            \item Initial point: \([ \ 0.5 \ 3.5 \ 1 \ 2 \ ]\)
         \end{itemize}
           \textbf{Output:}
           \begin{itemize}
               \item Solver state: solved
-              \item Decision variables: \([ \ 6 \ 1 \ 0 \ 0  \]\)
+              \item Decision variables: \([ \ 6 \ 1 \ 0 \ 0 \]\)
               \item Maximum values:  \(7\)
           \end{itemize}
 
@@ -90,13 +90,13 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
                     \end{cases}\)
           \end{itemize}
         \begin{itemize}
-            \item Initial point: \([ \1 \ 1 \ 1 \ 315 \ 174 \ 169  \]\)
+            \item Initial point: \([ \ 1 \ 1 \ 1 \ 315 \ 174 \ 169 \ ]\)
         \end{itemize}
 
           \textbf{Output:}
           \begin{itemize}
               \item Solver state: solved
-              \item Decision variables: \([ \ 0 \ 8 \ 20 \ 0 \ 0 \ 96  \]\)
+              \item Decision variables: \([ \ 0 \ 8 \ 20 \ 0 \ 0 \ 96 \ ]\)
               \item Maximum value: \(400\)
           \end{itemize}
 
@@ -105,15 +105,15 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
               \item Objective function: \(F(x_1, x_2, x_3) =  x_1 - 2 x_2\)
               \item Constraints: \(\begin{cases}
                         x_1 + x_2 + x_3 = 8 \\
-                        x_1, x_2, x_3 \ge 0        \\
+                        x_1, x_2, x_3 \ge 0 \\
                     \end{cases}\)
-                    \item Initial point: \([ \ 2 \ 2 \ 4  \]\)
+                    \item Initial point: \([ \ 2 \ 2 \ 4 \ ]\)
           \end{itemize}
 
           \textbf{Output:}
           \begin{itemize}
               \item Solver state: solved
-              \item Decision variables: \([ \ 0 \ 8  \ 0  \]\)
+              \item Decision variables: \([ \ 0 \ 8 \ 0 \ ]\)
               \item Maximum value: \(16\)
           \end{itemize}
 
@@ -122,15 +122,15 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
               \item Objective function: \(F(x_1, x_2) = 2 x_1 + 5 x_2 + 7 x_3\)
               \item Constraints: \(\begin{cases}
                         1 x_1 + 2 x_2 + 3 x_3 = 6 \\
-                        x_1, x_2, x_3 \ge 0   \\
+                        x_1, x_2, x_3 \ge 0       \\
                     \end{cases}\)
-                    \item Initial point: \([ \ 1 \ 1  \ 1  \]\)
+                    \item Initial point: \([ \ 1 \ 1 \ 1 \ ]\)
           \end{itemize}
 
           \textbf{Output:}
           \begin{itemize}
               \item Solver state: solved
-              \item Decision variables: \([ \ 0 \ 3  \ 0  \]\)
+              \item Decision variables: \([ \ 0 \ 3 \ 0 \ ]\)
               \item Maximum value: 15
           \end{itemize}
 
@@ -142,7 +142,7 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
                         -2 x_1 + x_2 \le -1 \\
                         x_1, x_2 \ge 0      \\
                     \end{cases}\)
-                    \item Initial point:
+              \item Initial point: \([ \ 1 \ 1 \ ]\)
           \end{itemize}
 
           \textbf{Output:}
@@ -157,11 +157,6 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
 
 \fbox{\texttt{crates/pt2-cli/src/main.rs}}
 \verbinput{../crates/pt2-cli/src/main.rs}
-
-\newpage
-
-\fbox{\texttt{crates/pt2-cli/src/tests.rs}}
-\verbinput{../crates/pt2-cli/src/tests.rs}
 
 \newpage
 

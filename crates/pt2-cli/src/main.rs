@@ -8,7 +8,9 @@ fn main() -> Result<()> {
 
     color_eyre::install()?;
 
-    for test in config::read_tests().wrap_err("tests.json not found")? {
+    let tests = config::read_tests().wrap_err("tests.json not found")?;
+
+    for test in tests {
         for alpha in [ALPHA_1, ALPHA_2] {
             let iterations = match pt2_core::interior_point(
                 test.objective_function.clone(),

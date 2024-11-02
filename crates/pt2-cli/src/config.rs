@@ -15,7 +15,7 @@ pub struct Test {
     pub eps: usize,
 }
 
-pub fn read_tests() -> Result<Box<[Test]>> {
+pub fn read_tests() -> Result<Vec<Test>> {
     let tests_file = BufReader::new(File::open("tests.json")?);
     Ok(serde_json::from_reader(tests_file)?)
 }
