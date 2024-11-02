@@ -35,45 +35,47 @@ fn prompt(tests: Vec<Test>) -> Result<Next> {
         return Ok(Next::Break);
     };
 
-    let Ok((lpp, iterations)) = pt2_core::interior_point(
-        test.objective_function.clone(),
-        &test.constraints,
-        test.initial_point.clone(),
-        test.eps,
-        alpha,
-    ) else {
-        println!("The method is not applicable.");
-        return Ok(Next::Continue);
-    };
+    'a: {
+        let Ok((lpp, iterations)) = pt2_core::interior_point(
+            test.objective_function.clone(),
+            &test.constraints,
+            test.initial_point.clone(),
+            test.eps,
+            alpha,
+        ) else {
+            println!("The method is not applicable.");
+            break 'a;
+        };
 
-    println!("Epsilon: {} ({:.eps$})", test.eps, lpp.eps, eps = test.eps);
+        println!("Epsilon: {} ({:.eps$})", test.eps, lpp.eps, eps = test.eps);
 
-    println!(
-        "Objective function: {:.eps$?}",
-        lpp.c.iter().collect::<Box<[_]>>(),
-        eps = test.eps,
-    );
-    println!(
-        "Initial point: {:.eps$?}",
-        lpp.x.iter().collect::<Box<[_]>>(),
-        eps = test.eps,
-    );
-    println!("Constraints:{:.eps$}", lpp.big_a, eps = test.eps);
+        println!(
+            "Objective function: {:.eps$?}",
+            lpp.c.iter().collect::<Box<[_]>>(),
+            eps = test.eps,
+        );
+        println!(
+            "Initial point: {:.eps$?}",
+            lpp.x.iter().collect::<Box<[_]>>(),
+            eps = test.eps,
+        );
+        println!("Constraints:{:.eps$}", lpp.big_a, eps = test.eps);
 
-    let last = iterations.last().unwrap();
+        let last = iterations.last().unwrap();
 
-    let Ok(result) = last else {
-        println!("The problem doesn't have a solution.");
-        return Ok(Next::Continue);
-    };
+        let Ok(result) = last else {
+            println!("The problem doesn't have a solution.");
+            break 'a;
+        };
 
-    println!("Result:");
-    println!("Maximum: {:.eps$}", result.max, eps = test.eps);
-    println!(
-        "Decision variables: {:.eps$?}",
-        result.decision_variables.iter().collect::<Box<[_]>>(),
-        eps = test.eps
-    );
+        println!("Result:");
+        println!("Maximum: {:.eps$}", result.max, eps = test.eps);
+        println!(
+            "Decision variables: {:.eps$?}",
+            result.decision_variables.iter().collect::<Box<[_]>>(),
+            eps = test.eps
+        );
+    }
 
     let Some(next) = inquire::Confirm::new("Next test?").prompt_skippable()? else {
         return Ok(Next::Break);
