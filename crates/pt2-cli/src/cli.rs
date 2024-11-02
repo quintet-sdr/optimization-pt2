@@ -18,7 +18,7 @@ enum Next {
 
 fn prompt(tests: Vec<Test>) -> Result<Next> {
     for _ in 0..crossterm::terminal::size()?.1 {
-        println!()
+        println!();
     }
 
     let Some(test) = inquire::Select::new("Select a test:", tests)
