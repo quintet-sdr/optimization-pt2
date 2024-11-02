@@ -1,4 +1,7 @@
+use std::io;
+
 use color_eyre::{eyre::Context, Result};
+use crossterm::terminal::{Clear, ClearType};
 
 mod config;
 
@@ -10,9 +13,11 @@ fn main() -> Result<()> {
 
     let tests = config::read_tests().wrap_err("tests.json not found")?;
 
-    inquire::Select::new("Hello", tests.clone());
-
-    for test in tests {
+    loop {
+        crossterm::execute!(io::stdout(), Clear(ClearType::All))?;
+        let Some(test) = inquire::Select::new("Hello", tests.clone()).prompt_skippable()? else {
+            return Ok(());
+        };
         for alpha in [ALPHA_1, ALPHA_2] {
             let iterations = match pt2_core::interior_point(
                 test.objective_function.clone(),
@@ -46,7 +51,6 @@ fn main() -> Result<()> {
                 eps = test.eps
             );
         }
+        inquire::Confirm::new("foobar").prompt()?;
     }
-
-    Ok(())
 }
