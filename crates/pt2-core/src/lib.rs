@@ -36,6 +36,17 @@ pub fn interior_point(
         return Err(NotApplicableError);
     }
 
+    let no_slack_rows = constraints
+        .iter()
+        .enumerate()
+        .filter_map(|(i, (_, sign, _))| matches!(sign, Sign::Eq).then_some(i));
+    let no_slack_cols = no_slack_rows.map(|j| m + j).collect::<Box<[_]>>();
+    let n_slack_cols = n - no_slack_cols.len();
+
+    if initial_point.len() != m + n_slack_cols {
+        return Err(NotApplicableError);
+    }
+
     let big_a = {
         let left_part_row_elements = constraints
             .iter()
@@ -57,20 +68,8 @@ pub fn interior_point(
             DMatrix::from_row_iterator(n, m, left_part_row_elements).resize_horizontally(m + n, 0.);
 
         big_a
-            .view_mut((0, m), (n, m))
+            .view_mut((0, m), (n, n))
             .set_diagonal(right_part_diagonal_elements);
-
-        let no_slack_rows = constraints
-            .iter()
-            .enumerate()
-            .filter_map(|(i, (_, sign, _))| matches!(sign, Sign::Eq).then_some(i));
-
-        let no_slack_cols = no_slack_rows.map(|j| m + j).collect::<Box<[_]>>();
-
-        let n_slack_cols = n - no_slack_cols.len();
-        if initial_point.len() != m + n_slack_cols {
-            return Err(NotApplicableError);
-        }
 
         big_a.remove_columns_at(&no_slack_cols)
     };
@@ -79,7 +78,7 @@ pub fn interior_point(
         done: false,
         x: DVector::from_vec(initial_point),
         big_a,
-        c: DVector::from_vec(objective_function).resize_vertically(n + m, 0.),
+        c: DVector::from_vec(objective_function).resize_vertically(m + n_slack_cols, 0.),
         eps: up_to_n_dec_places(i32::try_from(eps).map_err(|_| NotApplicableError)?),
         alpha,
     })
