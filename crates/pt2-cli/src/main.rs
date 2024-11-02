@@ -15,11 +15,12 @@ fn main() -> Result<()> {
 
     loop {
         crossterm::execute!(io::stdout(), Clear(ClearType::All))?;
+
         let Some(test) = inquire::Select::new("Select a test:", tests.clone())
             .with_vim_mode(true)
             .prompt_skippable()?
         else {
-            return Ok(());
+            break;
         };
 
         for alpha in [ALPHA_1, ALPHA_2] {
