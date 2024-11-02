@@ -48,30 +48,35 @@
 
 \begin{itemize}
     \item Maximization
-    \item Approximation accuracy \(\epsilon = 0.005\)
+    \item Approximation accuracy \(\epsilon = 2\)
+    \item  \(\alpha_1 = 0.5\)
+    \item  \(\alpha_2 = 0.9\)
 \end{itemize}
 
 \newpage
 
 \section*{Tests:}
 
+In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
+
 \begin{enumerate}[label={(\arabic*)}, itemsep=0.25in]
     \item \textbf{Input:}
           \begin{itemize}
-              \item Objective function: \(F(x_1, x_2) = 10 x_1 + 20 x_2\)
+              \item Objective function: \(F(x_1, x_2) = x_1 + x_2\)
               \item Constraints: \(\begin{cases}
-                        -x_1 + 2 x_2 \le 15  \\
-                        x_1 + x_2 \le 12     \\
-                        5 x_1 + 3 x_2 \le 45 \\
-                        x_1, x_2 \ge 0       \\
+                        2 x_1 + 4 x_2 \le 16  \\
+                        x_1 + 3 x_2 \ge 9     \\
+                        x_1 , x_2 \ge 0 \\
                     \end{cases}\)
           \end{itemize}
-
+        \begin{itemize}
+            \item Initial point: \([ 0.5 \ 3.5 \ 1 \ 2 ]\)
+        \end{itemize}
           \textbf{Output:}
           \begin{itemize}
               \item Solver state: solved
-              \item Decision variables: \({\{ 3, 9 \}}\)
-              \item Maximum value: \(210\)
+              \item Decision variables: \([ 6 \ 1 \ 0 \ 0]\)
+              \item Maximum values:  \(7\)
           \end{itemize}
 
     \item \textbf{Input:}
@@ -84,45 +89,49 @@
                         x_1, x_2, x_3 \ge 0              \\
                     \end{cases}\)
           \end{itemize}
+        \begin{itemize}
+            \item Initial point: \([1 \ 1 \ 1 \ 315 \ 174 \ 169 ]\)
+        \end{itemize}
 
           \textbf{Output:}
           \begin{itemize}
               \item Solver state: solved
-              \item Decision variables: \({\{ 0, 8, 20 \}}\)
+              \item Decision variables: \([ 0 \ 8 \ 20 \ 0 \ 0 \ 96 ]\)
               \item Maximum value: \(400\)
           \end{itemize}
 
     \item \textbf{Input:}
           \begin{itemize}
-              \item Objective function: \(F(x_1, x_2, x_3) = 2 x_1 - 2 x_2 + 6 x_3\)
+              \item Objective function: \(F(x_1, x_2, x_3) =  x_1 - 2 x_2\)
               \item Constraints: \(\begin{cases}
-                        2 x_1 + x_2 - 2 x_3 \le 24 \\
-                        x_1 + 2 x_2 + 4 x_3 \le 23 \\
-                        x_1 - x_2 + 2 x_3 \le 10   \\
+                        x_1 + x_2 + x_3 = 8 \\
                         x_1, x_2, x_3 \ge 0        \\
                     \end{cases}\)
+                    \item Initial point: \([2 \ 2 \ 4 ]\)
           \end{itemize}
 
           \textbf{Output:}
           \begin{itemize}
               \item Solver state: solved
-              \item Decision variables: \({\{ 0, 0.75, 5.375 \}}\)
-              \item Maximum value: \(30.75\)
+              \item Decision variables: \([ 0 \ 8  \ 0 ]\)
+              \item Maximum value: \(16\)
           \end{itemize}
 
     \item \textbf{Input:}
           \begin{itemize}
-              \item Objective function: \(F(x_1, x_2) = 2 x_1 + x_2\)
+              \item Objective function: \(F(x_1, x_2) = 2 x_1 + 5 x_2 + 7 x_3\)
               \item Constraints: \(\begin{cases}
-                        x_1 - x_2 \le 10 \\
-                        -2 x_1 \le 40    \\
-                        x_1, x_2 \ge 0   \\
+                        1 x_1 + 2 x_2 + 3 x_3 = 6 \\
+                        x_1, x_2, x_3 \ge 0   \\
                     \end{cases}\)
+                    \item Initial point: \([ 1 \ 1  \ 1 ]\)
           \end{itemize}
 
           \textbf{Output:}
           \begin{itemize}
-              \item Solver state: unbounded
+              \item Solver state: solved
+              \item Decision variables: \([ 0 \ 3  \ 0 ]\)
+              \item Maximum value: 15
           \end{itemize}
 
     \item \textbf{Input:}
@@ -133,6 +142,7 @@
                         -2 x_1 + x_2 \le -1 \\
                         x_1, x_2 \ge 0      \\
                     \end{cases}\)
+                    \item Initial point:
           \end{itemize}
 
           \textbf{Output:}
