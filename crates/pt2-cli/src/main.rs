@@ -82,7 +82,6 @@ fn main() -> Result<()> {
     }));
 
     let result = real_main();
-
     crossterm::execute!(io::stdout(), LeaveAlternateScreen)?;
     result
 }
