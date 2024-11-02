@@ -39,6 +39,7 @@ pub fn interior_point(
     }
 
     let x = DVector::from_vec(initial_point);
+
     let big_a = {
         let left_part_row_elements = constraints
             .iter()
@@ -63,7 +64,15 @@ pub fn interior_point(
             .view_mut((0, m), (n, m))
             .set_diagonal(right_part_diagonal_elements);
 
-        big_a
+        let no_slack_rows = constraints
+            .iter()
+            .enumerate()
+            .filter(|(_, (_, sign, _))| matches!(sign, Sign::Eq))
+            .map(|(i, _)| i);
+
+        let no_slack_columns: Box<_> = no_slack_rows.map(|i| m + i).collect();
+
+        big_a.remove_columns_at(&no_slack_columns)
     };
     let c = DVector::from_vec(objective_function).resize_vertically(n + m, 0.);
     let eps = up_to_n_dec_places(i32::try_from(eps).map_err(|_| NotApplicableError)?);
