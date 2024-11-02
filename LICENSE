@@ -34,11 +34,10 @@ modification, are permitted provided that the following conditions are met:
 
 2. Restrictions on Use.
 
-   The current license states that the code and documents provided may not be
-   used by members of educational institutions for the purpose of performing
-   educational material aimed at measuring the knowledge of members of the
-   educational institution. Failure to comply with this requirement reserves
-   the right to penalize the institution responsible for assessing its members' knowledge.
+   The current license states that The code and documents may not be used by members of
+   educational institutions for educational purposes related to assessing knowledge.
+   Failure to comply with this requirement reserves the right to penalize the institution
+   responsible for assessing its members' knowledge.
 
 3. Additional License.
 
@@ -48,8 +47,8 @@ modification, are permitted provided that the following conditions are met:
 
 4. Disclaimer of Warranty.
 
-   The authors of the code, or the SDR Team, are not responsible for the use
-   of the work by the user and provide the software “as is” without warranty
+   The authors of the code (the SDR Team) are not responsible for the use
+   of the work by the user and the authors provide the software “as is” without warranty
    of any kind, either express or implied, including, but not limited to,
    warranties of merchantability, fitness for a particular purpose, and
    non-infringement.
