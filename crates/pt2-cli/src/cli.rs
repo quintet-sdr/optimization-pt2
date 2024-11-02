@@ -1,13 +1,9 @@
 use std::io;
 
 use color_eyre::{eyre::Context, Result};
-use config::Test;
-use crossterm::{
-    style::Stylize,
-    terminal::{Clear, ClearType},
-};
+use crossterm::terminal::{Clear, ClearType, EnterAlternateScreen, LeaveAlternateScreen};
 
-use crate::config;
+use crate::config::{self, Test};
 
 pub fn run() -> Result<()> {
     let tests = config::read_tests().wrap_err("tests.json not found")?;
@@ -20,13 +16,16 @@ enum Next {
     Break,
 }
 
+fn clear() -> io::Result<()> {
+    crossterm::execute!(io::stdout(), Clear(ClearType::All))
+}
+
 fn prompt(tests: Vec<Test>) -> Result<Next> {
     const ALPHA_1: f64 = 0.5;
     const ALPHA_2: f64 = 0.9;
 
-    crossterm::execute!(io::stdout(), Clear(ClearType::All))?;
+    clear()?;
 
-    println!("{}", "[esc to cancel]".cyan());
     let Some(test) = inquire::Select::new("Select a test:", tests)
         .with_vim_mode(true)
         .prompt_skippable()?
@@ -78,4 +77,12 @@ fn prompt(tests: Vec<Test>) -> Result<Next> {
     };
 
     Ok(Next::Continue)
+}
+
+pub fn enter_alternate_screen() -> io::Result<()> {
+    crossterm::execute!(io::stdout(), EnterAlternateScreen)
+}
+
+pub fn leave_alternate_screen() -> io::Result<()> {
+    crossterm::execute!(io::stdout(), LeaveAlternateScreen)
 }

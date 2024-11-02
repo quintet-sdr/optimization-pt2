@@ -1,7 +1,6 @@
-use std::{io, panic};
+use std::panic;
 
 use color_eyre::Result;
-use crossterm::terminal::{Clear, ClearType, EnterAlternateScreen, LeaveAlternateScreen};
 
 mod cli;
 mod config;
@@ -9,13 +8,14 @@ mod config;
 fn main() -> Result<()> {
     color_eyre::install()?;
 
-    crossterm::execute!(io::stdout(), EnterAlternateScreen)?;
+    cli::enter_alternate_screen()?;
     panic::set_hook(Box::new(|_| {
-        crossterm::execute!(io::stdout(), Clear(ClearType::All)).unwrap();
-        crossterm::execute!(io::stdout(), LeaveAlternateScreen).unwrap();
+        cli::enter_alternate_screen().unwrap();
+        cli::leave_alternate_screen().unwrap();
     }));
 
     let result = cli::run();
-    crossterm::execute!(io::stdout(), LeaveAlternateScreen)?;
+
+    cli::leave_alternate_screen()?;
     result
 }
