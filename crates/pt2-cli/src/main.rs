@@ -1,9 +1,9 @@
-use std::io;
+use std::{io, panic};
 
 use color_eyre::{eyre::Context, Result};
 use crossterm::{
     style::Stylize,
-    terminal::{Clear, ClearType},
+    terminal::{Clear, ClearType, EnterAlternateScreen, LeaveAlternateScreen},
 };
 
 mod config;
@@ -13,6 +13,11 @@ fn main() -> Result<()> {
     const ALPHA_2: f64 = 0.9;
 
     color_eyre::install()?;
+
+    crossterm::execute!(io::stdout(), EnterAlternateScreen)?;
+    panic::set_hook(Box::new(|_| {
+        crossterm::execute!(io::stdout(), LeaveAlternateScreen).unwrap()
+    }));
 
     let tests = config::read_tests().wrap_err("tests.json not found")?;
 
@@ -63,10 +68,14 @@ fn main() -> Result<()> {
             println!();
         }
 
-        if !inquire::Confirm::new("Next test?").prompt()? {
+        let Some(next) = inquire::Confirm::new("Next test?").prompt_skippable()? else {
+            break;
+        };
+        if !next {
             break;
         };
     }
 
+    crossterm::execute!(io::stdout(), LeaveAlternateScreen)?;
     Ok(())
 }
