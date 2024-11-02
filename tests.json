@@ -29,5 +29,13 @@
       [[1, 2, 3], "=", 6]
     ],
     "initial-point": [1, 1, 1]
+  },
+  {
+    "objective-function": [3, 2],
+    "constraints": [
+      [[1, -1], "<=", 2],
+      [[-2, 1], "<=", -1]
+    ],
+    "initial-point": [1, 1]
   }
 ]
