@@ -1,5 +1,6 @@
 [
   {
+    "name" : "Lab 6 problem 1",
     "objective-function": [1, 1],
     "constraints": [
       [[2, 4], "<=", 16],
@@ -9,6 +10,7 @@
     "eps": 2
   },
   {
+    "name" : "Lab 6 problem 2",
     "objective-function": [9, 10, 16],
     "constraints": [
       [[18, 15, 12], "<=", 360],
@@ -18,16 +20,19 @@
     "initial-point": [1, 1, 1, 315, 174, 169]
   },
   {
+    "name" : "Lecture 6 problem 1",
     "objective-function": [1, 2, 0],
     "constraints": [[[1, 1, 1], "==", 8]],
     "initial-point": [2, 2, 4]
   },
   {
+    "name" : "Tutorial 6 problem 1",
     "objective-function": [2, 5, 7],
     "constraints": [[[1, 2, 3], "==", 6]],
     "initial-point": [1, 1, 1]
   },
   {
+    "name" : "Inapplicable test (unbounded solution)",
     "objective-function": [3, 2],
     "constraints": [
       [[1, -1], "<=", 2],
