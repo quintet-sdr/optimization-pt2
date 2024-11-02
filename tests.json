@@ -18,16 +18,12 @@
   },
   {
     "objective-function": [1, 2, 0],
-    "constraints": [
-      [[1, 1, 1], "=", 8]
-    ],
-    "initial-point": [2,2,4]
+    "constraints": [[[1, 1, 1], "==", 8]],
+    "initial-point": [2, 2, 4]
   },
   {
     "objective-function": [2, 5, 7],
-    "constraints": [
-      [[1, 2, 3], "=", 6]
-    ],
+    "constraints": [[[1, 2, 3], "==", 6]],
     "initial-point": [1, 1, 1]
   },
   {
