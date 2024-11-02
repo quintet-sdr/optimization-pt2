@@ -8,16 +8,9 @@ use crossterm::{
 
 mod config;
 
-fn main() -> Result<()> {
+fn real_main() -> Result<()> {
     const ALPHA_1: f64 = 0.5;
     const ALPHA_2: f64 = 0.9;
-
-    color_eyre::install()?;
-
-    crossterm::execute!(io::stdout(), EnterAlternateScreen)?;
-    panic::set_hook(Box::new(|_| {
-        crossterm::execute!(io::stdout(), LeaveAlternateScreen).unwrap()
-    }));
 
     let tests = config::read_tests().wrap_err("tests.json not found")?;
 
@@ -76,6 +69,20 @@ fn main() -> Result<()> {
         };
     }
 
-    crossterm::execute!(io::stdout(), LeaveAlternateScreen)?;
     Ok(())
+}
+
+fn main() -> Result<()> {
+    color_eyre::install()?;
+
+    crossterm::execute!(io::stdout(), EnterAlternateScreen)?;
+    panic::set_hook(Box::new(|_| {
+        crossterm::execute!(io::stdout(), Clear(ClearType::All)).unwrap();
+        crossterm::execute!(io::stdout(), LeaveAlternateScreen).unwrap()
+    }));
+
+    let result = real_main();
+
+    crossterm::execute!(io::stdout(), LeaveAlternateScreen)?;
+    result
 }
