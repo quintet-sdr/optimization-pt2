@@ -1,8 +1,8 @@
-use pt2_core::Sign;
+use pt2_core::{Constraints, Sign};
 
 pub struct Lpp<'a> {
     pub objective_function: Vec<f64>,
-    pub constraints: &'a [(&'a [f64], Sign, f64)],
+    pub constraints: Constraints<'a>,
     pub initial_point: Vec<f64>,
 }
 

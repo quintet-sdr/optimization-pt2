@@ -34,6 +34,8 @@ pub struct InteriorPoint {
     pub(crate) alpha: f64,
 }
 
+pub type Constraints<'a> = &'a [(&'a [f64], Sign, f64)];
+
 pub enum Sign {
     Le,
     Eq,

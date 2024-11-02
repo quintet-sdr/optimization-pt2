@@ -1,6 +1,6 @@
 use na::{DMatrix, DVector};
 
-pub use crate::interfaces::Sign;
+pub use crate::interfaces::{Constraints, Sign};
 use crate::interfaces::{InteriorPoint, NotApplicableError};
 
 mod algorithm;
@@ -8,7 +8,7 @@ mod interfaces;
 
 pub fn interior_point(
     objective_function: Vec<f64>,
-    constraints: &[(&[f64], Sign, f64)],
+    constraints: Constraints,
     initial_point: Vec<f64>,
     eps: usize,
     alpha: f64,
@@ -47,11 +47,11 @@ pub fn interior_point(
     })
 }
 
-fn get_n_and_m(constraints: &[(&[f64], Sign, f64)]) -> Option<(usize, usize)> {
+fn get_n_and_m(constraints: Constraints) -> Option<(usize, usize)> {
     Some((constraints.len(), constraints.first()?.0.len()))
 }
 
-fn build_big_a(constraints: &[(&[f64], Sign, f64)]) -> DMatrix<f64> {
+fn build_big_a(constraints: Constraints) -> DMatrix<f64> {
     let (n, m) = get_n_and_m(constraints).unwrap();
 
     let left_part_row_elements = constraints
