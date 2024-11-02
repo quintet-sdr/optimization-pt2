@@ -48,7 +48,7 @@ fn prompt(tests: Vec<Test>) -> Result<Next> {
             break;
         };
 
-        println!("Alpha: {alpha:.eps$}", eps = test.eps);
+        println!("Alpha: {alpha}");
 
         println!("Epsilon: {} ({:.eps$})", test.eps, lpp.eps, eps = test.eps);
 
@@ -72,12 +72,15 @@ fn prompt(tests: Vec<Test>) -> Result<Next> {
             continue;
         };
 
-        println!("max: {:.eps$}", result.max, eps = test.eps);
+        println!("Result:");
+        println!("Maximum: {:.eps$}", result.max, eps = test.eps);
         println!(
-            "x: {:.eps$?}",
+            "Decision variables: {:.eps$?}",
             result.decision_variables.iter().collect::<Box<[_]>>(),
             eps = test.eps
         );
+        println!();
+        println!("{}", "-".repeat(16));
         println!();
     }
 
