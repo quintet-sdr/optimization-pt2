@@ -65,7 +65,7 @@ fn prompt(tests: Vec<Test>) -> Result<Next> {
     }
 
     let Some(next) = inquire::Confirm::new("Next test?").prompt_skippable()? else {
-        return Ok(Next::Continue);
+        return Ok(Next::Break);
     };
     if !next {
         return Ok(Next::Break);
