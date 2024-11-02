@@ -82,7 +82,7 @@ fn build_big_a(constraints: &[(&[f64], Sign, f64)]) -> DMatrix<f64> {
         .enumerate()
         .filter_map(|(i, (_, sign, _))| matches!(sign, Sign::Eq).then_some(i));
 
-    let no_slack_columns = no_slack_rows.map(|i| m + i).collect::<Box<[_]>>();
+    let no_slack_columns = no_slack_rows.map(|j| m + j).collect::<Box<[_]>>();
 
     big_a.remove_columns_at(&no_slack_columns)
 }
