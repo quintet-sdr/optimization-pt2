@@ -11,7 +11,7 @@ pub struct Test {
     pub objective_function: Vec<f64>,
     pub constraints: Box<[(Box<[f64]>, Sign, f64)]>,
     pub initial_point: Vec<f64>,
-    #[serde(default = "eps_default")]
+    #[serde(alias = "epsilon", default = "eps_default")]
     pub eps: usize,
 }
 
