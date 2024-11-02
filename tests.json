@@ -1,5 +1,17 @@
 [
   {
+    "name": "Lec 6 / Problem 1",
+    "objective-function": [1, 2, 0],
+    "constraints": [[[1, 1, 1], "==", 8]],
+    "initial-point": [2, 2, 4]
+  },
+  {
+    "name": "Tut 6 / Problem 1",
+    "objective-function": [2, 5, 7],
+    "constraints": [[[1, 2, 3], "==", 6]],
+    "initial-point": [1, 1, 1]
+  },
+  {
     "name": "Lab 6 / Problem 1",
     "objective-function": [1, 1],
     "constraints": [
@@ -20,19 +32,7 @@
     "initial-point": [1, 1, 1, 315, 174, 169]
   },
   {
-    "name": "Lec 6 / Problem 1",
-    "objective-function": [1, 2, 0],
-    "constraints": [[[1, 1, 1], "==", 8]],
-    "initial-point": [2, 2, 4]
-  },
-  {
-    "name": "Tut 6 / Problem 1",
-    "objective-function": [2, 5, 7],
-    "constraints": [[[1, 2, 3], "==", 6]],
-    "initial-point": [1, 1, 1]
-  },
-  {
-    "name": "No Solution",
+    "name": "No Solution 1",
     "objective-function": [3, 2],
     "constraints": [
       [[1, -1], "<=", 2],
@@ -41,8 +41,8 @@
     "initial-point": [1, 1]
   },
   {
-    "name" : "Inapplicable test (unbounded solution)",
-    "objective-function": [2,1],
+    "name": "No Solution 2",
+    "objective-function": [2, 1],
     "constraints": [
       [[1, -1], "<=", 10],
       [[-2, 0], "<=", 40]
