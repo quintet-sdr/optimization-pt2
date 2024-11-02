@@ -1,6 +1,6 @@
 use std::{fs::File, io::BufReader};
 
-use anyhow::Result;
+use color_eyre::Result;
 use serde::Deserialize;
 
 use pt2_core::Sign;
