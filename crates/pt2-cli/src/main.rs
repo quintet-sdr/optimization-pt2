@@ -1,6 +1,8 @@
+use anyhow::Result;
+
 mod config;
 
-fn main() -> anyhow::Result<()> {
+fn main() -> Result<()> {
     const ALPHA_1: f64 = 0.5;
     const ALPHA_2: f64 = 0.9;
 
