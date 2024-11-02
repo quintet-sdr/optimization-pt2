@@ -38,53 +38,52 @@ pub fn interior_point(
         return Err(NotApplicableError);
     }
 
-    let x = DVector::from_vec(initial_point);
-
-    let big_a = {
-        let left_part_row_elements = constraints
-            .iter()
-            .flat_map(|(coefficients, _, _)| *coefficients)
-            .copied();
-
-        let right_part_diagonal_elements = &DVector::from_vec(
-            constraints
-                .iter()
-                .map(|(_, sign, _)| match sign {
-                    Sign::Le => 1.,
-                    Sign::Eq => 0.,
-                    Sign::Ge => -1.,
-                })
-                .collect(),
-        );
-
-        let mut big_a =
-            DMatrix::from_row_iterator(n, m, left_part_row_elements).resize_horizontally(m + n, 0.);
-
-        big_a
-            .view_mut((0, m), (n, m))
-            .set_diagonal(right_part_diagonal_elements);
-
-        let no_slack_rows = constraints
-            .iter()
-            .enumerate()
-            .filter(|(_, (_, sign, _))| matches!(sign, Sign::Eq))
-            .map(|(i, _)| i);
-
-        let no_slack_columns: Box<_> = no_slack_rows.map(|i| m + i).collect();
-
-        big_a.remove_columns_at(&no_slack_columns)
-    };
-    let c = DVector::from_vec(objective_function).resize_vertically(n + m, 0.);
-    let eps = up_to_n_dec_places(i32::try_from(eps).map_err(|_| NotApplicableError)?);
-
     Ok(InteriorPoint {
         done: false,
-        x,
-        big_a,
-        c,
-        eps,
+        x: DVector::from_vec(initial_point),
+        big_a: build_big_a(constraints),
+        c: DVector::from_vec(objective_function).resize_vertically(n + m, 0.),
+        eps: up_to_n_dec_places(i32::try_from(eps).map_err(|_| NotApplicableError)?),
         alpha,
     })
+}
+
+fn build_big_a(constraints: &[(&[f64], Sign, f64)]) -> DMatrix<f64> {
+    let n = constraints.len();
+    let m = constraints.first().unwrap().0.len();
+
+    let left_part_row_elements = constraints
+        .iter()
+        .flat_map(|(coefficients, _, _)| *coefficients)
+        .copied();
+
+    let right_part_diagonal_elements = &DVector::from_vec(
+        constraints
+            .iter()
+            .map(|(_, sign, _)| match sign {
+                Sign::Le => 1.,
+                Sign::Eq => 0.,
+                Sign::Ge => -1.,
+            })
+            .collect(),
+    );
+
+    let mut big_a =
+        DMatrix::from_row_iterator(n, m, left_part_row_elements).resize_horizontally(m + n, 0.);
+
+    big_a
+        .view_mut((0, m), (n, m))
+        .set_diagonal(right_part_diagonal_elements);
+
+    let no_slack_rows = constraints
+        .iter()
+        .enumerate()
+        .filter(|(_, (_, sign, _))| matches!(sign, Sign::Eq))
+        .map(|(i, _)| i);
+
+    let no_slack_columns: Box<_> = no_slack_rows.map(|i| m + i).collect();
+
+    big_a.remove_columns_at(&no_slack_columns)
 }
 
 fn up_to_n_dec_places(n: i32) -> f64 {
