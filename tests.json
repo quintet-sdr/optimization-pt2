@@ -32,7 +32,7 @@
     "initial-point": [1, 1, 1]
   },
   {
-    "name": "No Solution",
+    "name": "No Solution 1",
     "objective-function": [3, 2],
     "constraints": [
       [[1, -1], "<=", 2],
@@ -41,8 +41,8 @@
     "initial-point": [1, 1]
   },
   {
-    "name" : "Inapplicable test (unbounded solution)",
-    "objective-function": [2,1],
+    "name": "No Solution 2",
+    "objective-function": [2, 1],
     "constraints": [
       [[1, -1], "<=", 10],
       [[-2, 0], "<=", 40]
