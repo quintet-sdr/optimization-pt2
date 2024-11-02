@@ -3,16 +3,16 @@ use color_eyre::{eyre::Context, Result};
 mod config;
 
 fn main() -> Result<()> {
-    color_eyre::install()?;
-
     const ALPHA_1: f64 = 0.5;
     const ALPHA_2: f64 = 0.9;
+
+    color_eyre::install()?;
 
     for test in config::read_tests().wrap_err("tests.json not found")? {
         for alpha in [ALPHA_1, ALPHA_2] {
             let iterations = match pt2_core::interior_point(
                 test.objective_function.clone(),
-                test.constraints.clone(),
+                &test.constraints,
                 test.initial_point.clone(),
                 test.eps,
                 alpha,

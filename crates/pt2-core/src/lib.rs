@@ -8,12 +8,12 @@ mod interfaces;
 
 pub fn interior_point(
     objective_function: Vec<f64>,
-    constraints: Constraints,
+    constraints: &Constraints,
     initial_point: Vec<f64>,
     eps: usize,
     alpha: f64,
 ) -> Result<InteriorPoint, NotApplicableError> {
-    let (n, m) = get_n_and_m(&constraints).ok_or(NotApplicableError)?;
+    let (n, m) = get_n_and_m(constraints).ok_or(NotApplicableError)?;
 
     if constraints
         .iter()
@@ -41,9 +41,9 @@ pub fn interior_point(
         .enumerate()
         .filter_map(|(i, (_, sign, _))| matches!(sign, Sign::Eq).then_some(i));
     let no_slack_cols = no_slack_rows.map(|j| m + j).collect::<Box<[_]>>();
-    let n_slack_cols = n - no_slack_cols.len();
+    let slack_cols_count = n - no_slack_cols.len();
 
-    if initial_point.len() != m + n_slack_cols {
+    if initial_point.len() != m + slack_cols_count {
         return Err(NotApplicableError);
     }
 
@@ -78,7 +78,7 @@ pub fn interior_point(
         done: false,
         x: DVector::from_vec(initial_point),
         big_a,
-        c: DVector::from_vec(objective_function).resize_vertically(m + n_slack_cols, 0.),
+        c: DVector::from_vec(objective_function).resize_vertically(m + slack_cols_count, 0.),
         eps: up_to_n_dec_places(i32::try_from(eps).map_err(|_| NotApplicableError)?),
         alpha,
     })

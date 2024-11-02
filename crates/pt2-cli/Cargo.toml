@@ -11,6 +11,8 @@ publish.workspace = true
 
 [dependencies]
 color-eyre = "0.6.3"
+crossterm = "0.28.1"
+inquire = "0.7.5"
 pt2-core = { path = "../pt2-core" }
 serde.workspace = true
 serde_json = "1.0.132"
