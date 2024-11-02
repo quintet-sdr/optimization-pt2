@@ -24,6 +24,9 @@ fn prompt(tests: Vec<Test>) -> Result<Next> {
     const ALPHA_1: f64 = 0.5;
     const ALPHA_2: f64 = 0.9;
 
+    for _ in 0..crossterm::terminal::size()?.1 {
+        println!()
+    }
     clear()?;
 
     let Some(test) = inquire::Select::new("Select a test:", tests)
