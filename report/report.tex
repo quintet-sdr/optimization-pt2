@@ -5,17 +5,16 @@
 \usepackage{fancyhdr}
 \usepackage{geometry}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage[document]{ragged2e}
 \usepackage{sverb}
 
 \geometry{left=3cm, right=3cm, top=2cm, bottom=2cm}
-
+\setlength{\parskip}{4pt}
 \renewcommand\labelitemi{\(\vcenter{\hbox{\tiny{\({\bullet}\)}}}\)}
 
-\newcommand{\Gap}{0.25in}
+\chead{Report of Programming Task 2 of the course \enquote{Introduction to Optimization} / Fall 2024}
 
-\chead{Report of Programming Task 1 of the course \enquote{Introduction to Optimization} / Fall 2024}
-
-\title{\textbf{Report 1}}
+\title{\textbf{Report 2}}
 \author{}
 \date{}
 
@@ -24,7 +23,7 @@
 
 \thispagestyle{fancy}
 
-\textbf{Team information (B23-ISE-02):}
+\section*{Team information (B23-ISE-02):}
 \begin{itemize}
     \item Team member 1 (leader): Kirill Efimovich (\href{mailto:k.efimovich@innopolis.university}{k.efimovich@innopolis.university}), grade 5/5
     \item Team member 2: Arsen Galiev (\href{mailto:a.galiev@innopolis.university}{a.galiev@innopolis.university}), grade: 5/5
@@ -32,33 +31,31 @@
     \item Team member 4: Ilya-Linh Nguen (\href{mailto:i.nguen@innopolis.university}{i.nguen@innopolis.university}), grade: 5/5
 \end{itemize}
 
-\vspace{\Gap}
+\section*{Link to the product:}
 
-\textbf{Link to the product:}
 \begin{itemize}
     \item \url{https://github.com/quintet-sdr/optimization-pt2}
 \end{itemize}
 
-\vspace{\Gap}
+\section*{Programming language:}
 
-\textbf{Programming language:}
 \begin{itemize}
-    \item TypeScript (Bun)
-    \item To launch the code: \fbox{\texttt{\$ bun test}}
+    \item Rust
+    \item To launch the code: \fbox{\texttt{\$ cargo run}}
 \end{itemize}
 
-\vspace{\Gap}
+\section*{Linear programming problem:}
 
-\textbf{Linear programming problem:}
 \begin{itemize}
     \item Maximization
-    \item Approximation accuracy \(\epsilon = 0.001\)
+    \item Approximation accuracy \(\epsilon = 0.005\)
 \end{itemize}
 
-\vspace{\Gap}
+\newpage
 
-\textbf{Tests:}
-\begin{enumerate}[label={(\arabic*)}]
+\section*{Tests:}
+
+\begin{enumerate}[label={(\arabic*)}, itemsep=0.25in]
     \item \textbf{Input:}
           \begin{itemize}
               \item Objective function: \(F(x_1, x_2) = 10 x_1 + 20 x_2\)
@@ -76,8 +73,6 @@
               \item Decision variables: \({\{ 3, 9 \}}\)
               \item Maximum value: \(210\)
           \end{itemize}
-
-          \newpage
 
     \item \textbf{Input:}
           \begin{itemize}
@@ -97,8 +92,6 @@
               \item Maximum value: \(400\)
           \end{itemize}
 
-          \vspace{\Gap}
-
     \item \textbf{Input:}
           \begin{itemize}
               \item Objective function: \(F(x_1, x_2, x_3) = 2 x_1 - 2 x_2 + 6 x_3\)
@@ -117,8 +110,6 @@
               \item Maximum value: \(30.75\)
           \end{itemize}
 
-          \vspace{\Gap}
-
     \item \textbf{Input:}
           \begin{itemize}
               \item Objective function: \(F(x_1, x_2) = 2 x_1 + x_2\)
@@ -133,8 +124,6 @@
           \begin{itemize}
               \item Solver state: unbounded
           \end{itemize}
-
-          \vspace{\Gap}
 
     \item \textbf{Input:}
           \begin{itemize}
