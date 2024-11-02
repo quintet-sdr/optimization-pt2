@@ -13,8 +13,7 @@ pub fn interior_point(
     eps: usize,
     alpha: f64,
 ) -> Result<InteriorPoint, NotApplicableError> {
-    let n = constraints.len();
-    let m = constraints.first().ok_or(NotApplicableError)?.0.len();
+    let (n, m) = get_n_and_m(constraints).ok_or(NotApplicableError)?;
 
     if initial_point.len() != n + m
         || constraints
@@ -48,9 +47,12 @@ pub fn interior_point(
     })
 }
 
+fn get_n_and_m(constraints: &[(&[f64], Sign, f64)]) -> Option<(usize, usize)> {
+    Some((constraints.len(), constraints.first()?.0.len()))
+}
+
 fn build_big_a(constraints: &[(&[f64], Sign, f64)]) -> DMatrix<f64> {
-    let n = constraints.len();
-    let m = constraints.first().unwrap().0.len();
+    let (n, m) = get_n_and_m(constraints).unwrap();
 
     let left_part_row_elements = constraints
         .iter()
