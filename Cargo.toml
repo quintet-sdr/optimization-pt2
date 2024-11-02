@@ -17,6 +17,9 @@ repository = "https://github.com/quintet-sdr/optimization-pt2"
 license-file = "LICENSE"
 publish = false
 
+[workspace.dependencies]
+serde = { version = "1.0.214", features = ["derive"] }
+
 [workspace.lints.clippy]
 all = "warn"
 pedantic = "warn"

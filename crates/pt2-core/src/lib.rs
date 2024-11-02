@@ -13,7 +13,7 @@ pub fn interior_point(
     eps: usize,
     alpha: f64,
 ) -> Result<InteriorPoint, NotApplicableError> {
-    let (n, m) = get_n_and_m(constraints).ok_or(NotApplicableError)?;
+    let (n, m) = get_n_and_m(&constraints).ok_or(NotApplicableError)?;
 
     if constraints
         .iter()
@@ -50,7 +50,7 @@ pub fn interior_point(
     let big_a = {
         let left_part_row_elements = constraints
             .iter()
-            .flat_map(|(coefficients, _, _)| *coefficients)
+            .flat_map(|(coefficients, _, _)| coefficients)
             .copied();
 
         let right_part_diagonal_elements = &DVector::from_vec(
@@ -84,7 +84,7 @@ pub fn interior_point(
     })
 }
 
-fn get_n_and_m(constraints: Constraints) -> Option<(usize, usize)> {
+fn get_n_and_m(constraints: &Constraints) -> Option<(usize, usize)> {
     Some((constraints.len(), constraints.first()?.0.len()))
 }
 

@@ -1,4 +1,5 @@
 use na::{DMatrix, DVector};
+use serde::Deserialize;
 use thiserror::Error;
 
 #[derive(Error, Debug)]
@@ -34,11 +35,15 @@ pub struct InteriorPoint {
     pub(crate) alpha: f64,
 }
 
-pub type Constraints<'a> = &'a [(&'a [f64], Sign, f64)];
+pub type Constraints = Box<[(Box<[f64]>, Sign, f64)]>;
 
+#[derive(Clone, Deserialize)]
 pub enum Sign {
+    #[serde(rename = "<=")]
     Le,
+    #[serde(rename = "==", alias = "=")]
     Eq,
+    #[serde(rename = ">=")]
     Ge,
 }
 

@@ -1,19 +1,16 @@
-mod tests;
+mod config;
 
-fn main() {
-    const EPS: usize = 2;
+fn main() -> anyhow::Result<()> {
     const ALPHA_1: f64 = 0.5;
     const ALPHA_2: f64 = 0.9;
 
-    for generate_test in tests::generators() {
+    for test in config::get_tests()? {
         for alpha in [ALPHA_1, ALPHA_2] {
-            let test = generate_test();
-
             let iterations = match pt2_core::interior_point(
-                test.objective_function,
-                test.constraints,
-                test.initial_point,
-                EPS,
+                test.objective_function.clone(),
+                test.constraints.clone(),
+                test.initial_point.clone(),
+                test.eps,
                 alpha,
             ) {
                 Ok(it) => it,
@@ -33,9 +30,15 @@ fn main() {
                 }
             };
 
-            println!("alpha: {alpha:.EPS$}");
-            println!("max: {:.EPS$}", result.max);
-            println!("x:{:.EPS$}", result.decision_variables.transpose());
+            println!("alpha: {alpha:.eps$}", eps = test.eps);
+            println!("max: {:.eps$}", result.max, eps = test.eps);
+            println!(
+                "x:{:.eps$}",
+                result.decision_variables.transpose(),
+                eps = test.eps
+            );
         }
     }
+
+    Ok(())
 }
