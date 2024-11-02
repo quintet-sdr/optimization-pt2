@@ -17,6 +17,8 @@ After cloning the repository, simply type the following command.
 cargo run
 ```
 
+Test cases are depicted in [test.json](/tests.json)
+
 ## Report
 
 You may find the report under [report/report.pdf](/report/report.pdf).
