@@ -64,14 +64,14 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
           \begin{itemize}
               \item Objective function: \(F(x_1, x_2) = x_1 + x_2\)
               \item Constraints: \(\begin{cases}
-                        2 x_1 + 4 x_2 \le 16  \\
-                        x_1 + 3 x_2 \ge 9     \\
-                        x_1 , x_2 \ge 0 \\
+                        2 x_1 + 4 x_2 \le 16 \\
+                        x_1 + 3 x_2 \ge 9    \\
+                        x_1 , x_2 \ge 0      \\
                     \end{cases}\)
           \end{itemize}
-        \begin{itemize}
-            \item Initial point: \([ 0.5 \ 3.5 \ 1 \ 2 ]\)
-        \end{itemize}
+          \begin{itemize}
+              \item Initial point: \([ 0.5 \ 3.5 \ 1 \ 2 ]\)
+          \end{itemize}
           \textbf{Output:}
           \begin{itemize}
               \item Solver state: solved
@@ -89,9 +89,9 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
                         x_1, x_2, x_3 \ge 0              \\
                     \end{cases}\)
           \end{itemize}
-        \begin{itemize}
-            \item Initial point: \([1 \ 1 \ 1 \ 315 \ 174 \ 169 ]\)
-        \end{itemize}
+          \begin{itemize}
+              \item Initial point: \([1 \ 1 \ 1 \ 315 \ 174 \ 169 ]\)
+          \end{itemize}
 
           \textbf{Output:}
           \begin{itemize}
@@ -105,9 +105,9 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
               \item Objective function: \(F(x_1, x_2, x_3) =  x_1 - 2 x_2\)
               \item Constraints: \(\begin{cases}
                         x_1 + x_2 + x_3 = 8 \\
-                        x_1, x_2, x_3 \ge 0        \\
+                        x_1, x_2, x_3 \ge 0 \\
                     \end{cases}\)
-                    \item Initial point: \([2 \ 2 \ 4 ]\)
+              \item Initial point: \([2 \ 2 \ 4 ]\)
           \end{itemize}
 
           \textbf{Output:}
@@ -122,9 +122,9 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
               \item Objective function: \(F(x_1, x_2) = 2 x_1 + 5 x_2 + 7 x_3\)
               \item Constraints: \(\begin{cases}
                         1 x_1 + 2 x_2 + 3 x_3 = 6 \\
-                        x_1, x_2, x_3 \ge 0   \\
+                        x_1, x_2, x_3 \ge 0       \\
                     \end{cases}\)
-                    \item Initial point: \([ 1 \ 1  \ 1 ]\)
+              \item Initial point: \([ 1 \ 1  \ 1 ]\)
           \end{itemize}
 
           \textbf{Output:}
@@ -142,7 +142,7 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
                         -2 x_1 + x_2 \le -1 \\
                         x_1, x_2 \ge 0      \\
                     \end{cases}\)
-                    \item Initial point:
+              \item Initial point:
           \end{itemize}
 
           \textbf{Output:}
@@ -157,11 +157,6 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
 
 \fbox{\texttt{crates/pt2-cli/src/main.rs}}
 \verbinput{../crates/pt2-cli/src/main.rs}
-
-\newpage
-
-\fbox{\texttt{crates/pt2-cli/src/tests.rs}}
-\verbinput{../crates/pt2-cli/src/tests.rs}
 
 \newpage
 
