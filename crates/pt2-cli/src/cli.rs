@@ -28,7 +28,7 @@ fn prompt(tests: Vec<Test>) -> Result<Next> {
         return Ok(Next::Break);
     };
 
-    let Some(alpha) = inquire::Select::new("Select alpha:", vec![0.5, 0.9])
+    let Some(alpha) = inquire::Select::new("Select an alpha:", vec![0.5, 0.9])
         .with_vim_mode(true)
         .prompt_skippable()?
     else {
