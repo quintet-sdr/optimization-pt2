@@ -10,7 +10,7 @@ fn main() -> Result<()> {
 
     let tests = config::read_tests().wrap_err("tests.json not found")?;
 
-    inquire::Select::new("Hello", tests.clone());
+    inquire::Select::new("Hello", tests.clone()).prompt()?;
 
     for test in tests {
         for alpha in [ALPHA_1, ALPHA_2] {
