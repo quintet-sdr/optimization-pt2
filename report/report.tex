@@ -62,6 +62,7 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
 \begin{enumerate}[label={(\arabic*)}, itemsep=0.25in]
     \item \textbf{Input:}
           \begin{itemize}
+              \item Name: Lab 6 / Problem 1
               \item Objective function: \(F(x_1, x_2) = x_1 + x_2\)
               \item Constraints: \(\begin{cases}
                         2 x_1 + 4 x_2 \le 16 \\
@@ -80,6 +81,7 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
 
     \item \textbf{Input:}
           \begin{itemize}
+              \item Name: Lab 6 / Problem 2
               \item Objective function: \(F(x_1, x_2, x_3) = 9 x_1 + 10 x_2 + 16 x_3\)
               \item Constraints: \(\begin{cases}
                         18 x_1 + 15 x_2 + 12 x_3 \le 360 \\
@@ -100,7 +102,8 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
 
     \item \textbf{Input:}
           \begin{itemize}
-              \item Objective function: \(F(x_1, x_2, x_3) =  x_1 - 2 x_2\)
+              \item Name: Lec 6 / Problem 1
+              \item Objective function: \(F(x_1, x_2, x_3) =  x_1 + 2 x_2\)
               \item Constraints: \(\begin{cases}
                         x_1 + x_2 + x_3 = 8 \\
                         x_1, x_2, x_3 \ge 0 \\
@@ -116,6 +119,7 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
 
     \item \textbf{Input:}
           \begin{itemize}
+              \item Name: Tut 6 / Problem 1
               \item Objective function: \(F(x_1, x_2) = 2 x_1 + 5 x_2 + 7 x_3\)
               \item Constraints: \(\begin{cases}
                         1 x_1 + 2 x_2 + 3 x_3 = 6 \\
@@ -132,6 +136,7 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
 
     \item \textbf{Input:}
           \begin{itemize}
+              \item Name: No solution 1
               \item Objective function: \(F(x_1, x_2) = 3 x_1 + 2 x_2\)
               \item Constraints: \(\begin{cases}
                         x_1 - x_2 \le 2     \\
@@ -143,8 +148,25 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
 
           \textbf{Output:}
           \begin{itemize}
-              \item The method is not applicable.
+              \item No solution.
           \end{itemize}
+
+    \item \textbf{Input:}
+          \begin{itemize}
+              \item Name: No solution 2
+              \item Objective function: \(F(x_1, x_2) = 2 x_1 + 1 x_2\)
+              \item Constraints: \(\begin{cases}
+                        x_1 - x_2 \le 10     \\
+                        -2 x_1 \le 40 \\
+                        x_1, x_2 \ge 0      \\
+                    \end{cases}\)
+              \item Initial point: \([ \ 0 \ 0 \ ]\).
+          \end{itemize}
+
+          \textbf{Output:}
+          \begin{itemize}
+              \item Method is not applicable (unbounded solution).
+          \end{itemize}      
 \end{enumerate}
 
 \newpa
