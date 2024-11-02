@@ -6,7 +6,7 @@ fn main() -> Result<()> {
     const ALPHA_1: f64 = 0.5;
     const ALPHA_2: f64 = 0.9;
 
-    for test in config::get_tests()? {
+    for test in config::read_tests()? {
         for alpha in [ALPHA_1, ALPHA_2] {
             let iterations = match pt2_core::interior_point(
                 test.objective_function.clone(),
