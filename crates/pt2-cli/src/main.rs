@@ -1,7 +1,10 @@
 use std::io;
 
 use color_eyre::{eyre::Context, Result};
-use crossterm::terminal::{Clear, ClearType};
+use crossterm::{
+    style::Stylize,
+    terminal::{Clear, ClearType},
+};
 
 mod config;
 
@@ -16,6 +19,7 @@ fn main() -> Result<()> {
     loop {
         crossterm::execute!(io::stdout(), Clear(ClearType::All))?;
 
+        println!("{}", "[esc to cancel]".cyan());
         let Some(test) = inquire::Select::new("Select a test:", tests.clone())
             .with_vim_mode(true)
             .prompt_skippable()?
