@@ -34,36 +34,45 @@ fn prompt(tests: Vec<Test>) -> Result<Next> {
     };
 
     for alpha in [ALPHA_1, ALPHA_2] {
-        println!("alpha: {alpha:.eps$}", eps = test.eps);
-
-        let iterations = match pt2_core::interior_point(
+        let Ok((lpp, iterations)) = pt2_core::interior_point(
             test.objective_function.clone(),
             &test.constraints,
             test.initial_point.clone(),
             test.eps,
             alpha,
-        ) {
-            Ok(it) => it,
-            Err(err) => {
-                println!("{err}");
-                continue;
-            }
+        ) else {
+            println!("The method is not applicable.");
+            break;
         };
+
+        println!("Alpha: {alpha:.eps$}", eps = test.eps);
+
+        println!("Epsilon: {} ({:.eps$})", test.eps, lpp.eps, eps = test.eps);
+
+        println!(
+            "Objective function: {:.eps$?}",
+            lpp.c.iter().collect::<Box<[_]>>(),
+            eps = test.eps,
+        );
+        println!(
+            "Initial point: {:.eps$?}",
+            lpp.x.iter().collect::<Box<[_]>>(),
+            eps = test.eps,
+        );
+        println!("Constraints:{:.eps$}", lpp.big_a, eps = test.eps);
 
         let last = iterations.last().unwrap();
 
-        let result = match last {
-            Ok(it) => it,
-            Err(err) => {
-                println!("{err}");
-                continue;
-            }
+        let Ok(result) = last else {
+            println!("The problem doesn't have a solution.");
+            println!();
+            continue;
         };
 
         println!("max: {:.eps$}", result.max, eps = test.eps);
         println!(
-            "x:{:.eps$}",
-            result.decision_variables.transpose(),
+            "x: {:.eps$?}",
+            result.decision_variables.iter().collect::<Box<[_]>>(),
             eps = test.eps
         );
         println!();
