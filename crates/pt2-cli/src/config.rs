@@ -7,9 +7,10 @@ use serde::Deserialize;
 
 use pt2_core::Constraints;
 
-#[derive(Deserialize)]
+#[derive(Clone, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub struct Test {
+    #[serde(default = "name_default")]
     pub name: Box<str>,
     pub objective_function: Vec<f64>,
     pub constraints: Constraints,
