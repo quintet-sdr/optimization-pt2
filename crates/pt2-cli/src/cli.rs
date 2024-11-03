@@ -47,7 +47,12 @@ fn prompt(tests: Vec<Test>) -> Result<Next> {
             break 'a;
         };
 
-        println!("Epsilon: {} ({:.eps$})", test.eps, lpp.eps, eps = test.eps);
+        println!(
+            "Epsilon: {} ({:.eps$})",
+            test.eps,
+            lpp.eps,
+            eps = test.eps + 1,
+        );
 
         println!(
             "Objective function: {:.eps$?}",
@@ -73,7 +78,7 @@ fn prompt(tests: Vec<Test>) -> Result<Next> {
         println!(
             "Decision variables: {:.eps$?}",
             result.decision_variables.iter().collect::<Box<[_]>>(),
-            eps = test.eps
+            eps = test.eps,
         );
     }
 
