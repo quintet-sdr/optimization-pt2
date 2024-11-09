@@ -16,7 +16,7 @@ impl Lpp {
         constraints: &Constraints,
         initial_point: Vec<f64>,
         eps: usize,
-    ) -> Result<Lpp, NotApplicableError> {
+    ) -> Result<Self, NotApplicableError> {
         let (n, m) = get_n_and_m(constraints).ok_or(NotApplicableError)?;
 
         if constraints
@@ -81,7 +81,7 @@ impl Lpp {
         let c = DVector::from_vec(objective_function).resize_vertically(m + slack_cols_count, 0.);
         let eps = up_to_n_dec_places(i32::try_from(eps).map_err(|_| NotApplicableError)?);
 
-        Ok(Lpp { x, big_a, c, eps })
+        Ok(Self { x, big_a, c, eps })
     }
 }
 

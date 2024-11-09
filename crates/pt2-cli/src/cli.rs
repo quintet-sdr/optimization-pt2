@@ -1,7 +1,7 @@
 use std::io;
 
 use color_eyre::{eyre::Context, Result};
-use crossterm::terminal::{Clear, ClearType, EnterAlternateScreen, LeaveAlternateScreen};
+use crossterm::terminal::{EnterAlternateScreen, LeaveAlternateScreen};
 
 use crate::config::{self, Test};
 
@@ -16,18 +16,10 @@ enum Next {
     Break,
 }
 
-fn clear() -> io::Result<()> {
-    crossterm::execute!(io::stdout(), Clear(ClearType::All))
-}
-
 fn prompt(tests: Vec<Test>) -> Result<Next> {
-    const ALPHA_1: f64 = 0.5;
-    const ALPHA_2: f64 = 0.9;
-
     for _ in 0..crossterm::terminal::size()?.1 {
-        println!()
+        println!();
     }
-    clear()?;
 
     let Some(test) = inquire::Select::new("Select a test:", tests)
         .with_vim_mode(true)
@@ -36,7 +28,14 @@ fn prompt(tests: Vec<Test>) -> Result<Next> {
         return Ok(Next::Break);
     };
 
-    for alpha in [ALPHA_1, ALPHA_2] {
+    let Some(alpha) = inquire::Select::new("Select an alpha:", vec![0.5, 0.9])
+        .with_vim_mode(true)
+        .prompt_skippable()?
+    else {
+        return Ok(Next::Break);
+    };
+
+    'a: {
         let Ok((lpp, iterations)) = pt2_core::interior_point(
             test.objective_function.clone(),
             &test.constraints,
@@ -45,12 +44,15 @@ fn prompt(tests: Vec<Test>) -> Result<Next> {
             alpha,
         ) else {
             println!("The method is not applicable.");
-            break;
+            break 'a;
         };
 
-        println!("Alpha: {alpha:.eps$}", eps = test.eps);
-
-        println!("Epsilon: {} ({:.eps$})", test.eps, lpp.eps, eps = test.eps);
+        println!(
+            "Epsilon: {} ({:.eps$})",
+            test.eps,
+            lpp.eps,
+            eps = test.eps + 1,
+        );
 
         println!(
             "Objective function: {:.eps$?}",
@@ -68,17 +70,16 @@ fn prompt(tests: Vec<Test>) -> Result<Next> {
 
         let Ok(result) = last else {
             println!("The problem doesn't have a solution.");
-            println!();
-            continue;
+            break 'a;
         };
 
-        println!("max: {:.eps$}", result.max, eps = test.eps);
+        println!("Result:");
+        println!("Maximum: {:.eps$}", result.max, eps = test.eps);
         println!(
-            "x: {:.eps$?}",
+            "Decision variables: {:.eps$?}",
             result.decision_variables.iter().collect::<Box<[_]>>(),
-            eps = test.eps
+            eps = test.eps,
         );
-        println!();
     }
 
     let Some(next) = inquire::Confirm::new("Next test?").prompt_skippable()? else {

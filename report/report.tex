@@ -57,7 +57,9 @@
 
 \section*{Tests:}
 
-In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
+You may find and edit the tests inside \texttt{tests.json}.
+
+In all the default tests, the results for \(\alpha = 0.5\) and \(\alpha = 0.5\) are the same.
 
 \begin{enumerate}[label={(\arabic*)}, itemsep=0.25in]
     \item \textbf{Input:}
@@ -117,6 +119,8 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
               \item Maximum value: \(16\).
           \end{itemize}
 
+          \newpage
+
     \item \textbf{Input:}
           \begin{itemize}
               \item Name: Tut 6 / Problem 1
@@ -136,7 +140,7 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
 
     \item \textbf{Input:}
           \begin{itemize}
-              \item Name: No solution 1
+              \item Name: No Solution 1
               \item Objective function: \(F(x_1, x_2) = 3 x_1 + 2 x_2\)
               \item Constraints: \(\begin{cases}
                         x_1 - x_2 \le 2     \\
@@ -148,12 +152,12 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
 
           \textbf{Output:}
           \begin{itemize}
-              \item Method is not applicable.
+              \item The problem doesn't have a solution.
           \end{itemize}
 
     \item \textbf{Input:}
           \begin{itemize}
-              \item Name: No solution 2
+              \item Name: No Solution 2
               \item Objective function: \(F(x_1, x_2) = 2 x_1 + 1 x_2\)
               \item Constraints: \(\begin{cases}
                         x_1 - x_2 \le 10 \\
@@ -165,7 +169,7 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
 
           \textbf{Output:}
           \begin{itemize}
-              \item Method is not applicable.
+              \item The problem doesn't have a solution.
           \end{itemize}
 \end{enumerate}
 
@@ -200,4 +204,9 @@ In all tests answers for \(\alpha_1\) and \(\alpha_2\) are the same
 
 \fbox{\texttt{crates/pt2-core/src/interfaces.rs}}
 \verbinput{../crates/pt2-core/src/interfaces.rs}
+
+\newpage
+
+\fbox{\texttt{crates/pt2-core/src/lpp.rs}}
+\verbinput{../crates/pt2-core/src/lpp.rs}
 \end{document}
